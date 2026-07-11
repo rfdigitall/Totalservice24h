@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://totalservice24h.it/sitemap.xml
