@@ -4,7 +4,7 @@
  */
 window.TRACKING_CONFIG = {
   googleAdsId: 'AW-17710881957',
-  ga4Id: 'G-1LSVPLL52C',
+  ga4Id: 'G-5M16LNBYZP',
   phoneE164: '+393927398625',
   googleAdsSendTo: 'AW-17710881957/RrqfCJ_M840cEKW5mv1B'
 }
@@ -13,6 +13,7 @@ window.TRACKING_CONFIG = {
   'use strict'
   var TRC = window.TRACKING_CONFIG
   var GOOGLE_ADS = TRC.googleAdsId
+  var GA4 = TRC.ga4Id
   var SEND_TO = TRC.googleAdsSendTo
   var PHONE = TRC.phoneE164
 
@@ -29,10 +30,14 @@ window.TRACKING_CONFIG = {
 
   var s = document.createElement('script')
   s.async = true
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GOOGLE_ADS
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4
   document.head.appendChild(s)
 
   window.gtag('js', new Date())
+  window.gtag('config', GA4, {
+    anonymize_ip: true,
+    send_page_view: false
+  })
   window.gtag('set', {
     phone_conversion_number: PHONE,
     phone_conversion_ids: SEND_TO ? [SEND_TO] : []

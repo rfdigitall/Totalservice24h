@@ -9,7 +9,7 @@
   var CALLBACK_DONE = 'ts_callback_done'
   var PHRASES = ['nella tua zona', 'nelle tue vicinanze', 'vicino a te', 'in zona']
   var GOOGLE_ADS = 'AW-17710881957'
-  var GA4 = 'G-1LSVPLL52C'
+  var GA4 = 'G-5M16LNBYZP'
   var ETA_LABEL = '25–40 min'
 
   function $(sel, root) { return (root || document).querySelector(sel) }

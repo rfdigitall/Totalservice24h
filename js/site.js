@@ -9,7 +9,7 @@
   var CALL_TS_KEY = 'ts_call_ts'
   var CALLBACK_DONE_KEY = 'ts_callback_done'
   var GOOGLE_ADS_SEND_TO = TRC.googleAdsSendTo || ''
-  var GA4 = TRC.ga4Id || 'G-1LSVPLL52C'
+  var GA4 = TRC.ga4Id || 'G-5M16LNBYZP'
   var TIMED_PROMPT_MS = 35000
   var CALLBACK_WINDOW_MS = 10000
   var NIGHT_START = 20
