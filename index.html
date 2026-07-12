@@ -17,7 +17,7 @@
   <meta property="og:title" content="Total Service 24H — Fabbro e Idraulico h24 in Italia" />
   <meta property="og:description" content="Pronto intervento h24 nella tua zona. Fabbro e idraulico — chiama 392 739 8625." />
   <meta property="og:url" content="https://totalservice24h.it/" />
-  <meta property="og:image" content="https://totalservice24h.it/img/logo.png" />
+  <meta property="og:image" content="https://totalservice24h.it/img/logo-transparent.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:site_name" content="Total Service 24H" />
   <meta name="twitter:card" content="summary" />
@@ -26,63 +26,45 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "HomeAndConstructionBusiness",
-        "@id": "https://totalservice24h.it/#business",
-        "name": "Total Service 24H",
-        "url": "https://totalservice24h.it/",
-        "telephone": "+393927398625",
-        "image": "https://totalservice24h.it/img/logo.png",
-        "areaServed": { "@type": "Country", "name": "Italia" },
-        "availableLanguage": "it",
-        "openingHoursSpecification": {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-          "opens": "00:00",
-          "closes": "23:59"
-        },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Pronto intervento h24",
-          "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fabbro h24", "url": "https://totalservice24h.it/fabbro.html" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Idraulico h24", "url": "https://totalservice24h.it/idraulico.html" } }
-          ]
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          { "@type": "Question", "name": "Operate nella mia zona?", "acceptedAnswer": { "@type": "Answer", "text": "Al momento della chiamata verifichiamo se abbiamo un tecnico disponibile nella tua zona. Indica sempre via e numero civico per una risposta precisa." } },
-          { "@type": "Question", "name": "Quanto tempo ci vuole per arrivare?", "acceptedAnswer": { "@type": "Answer", "text": "Dipende dalla zona, dall'ora e dalla disponibilità dei tecnici. Te lo confermiamo al telefono prima di inviare qualcuno." } },
-          { "@type": "Question", "name": "Il servizio è attivo di notte e nei festivi?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Total Service 24H è attivo h24, 7 giorni su 7, inclusi sabato, domenica e festivi." } },
-          { "@type": "Question", "name": "Posso scrivere su WhatsApp invece di chiamare?", "acceptedAnswer": { "@type": "Answer", "text": "Sì, ma per le emergenze il telefono è più veloce. Su WhatsApp trovi il modulo nelle pagine Fabbro e Idraulico." } },
-          { "@type": "Question", "name": "Quanto costa l'intervento?", "acceptedAnswer": { "@type": "Answer", "text": "Il costo varia in base al tipo di lavoro e all'orario. Al telefono descrivi il problema e ricevi indicazioni prima che il tecnico parta." } },
-          { "@type": "Question", "name": "Che dati raccogliete?", "acceptedAnswer": { "@type": "Answer", "text": "Solo quelli necessari per gestire la richiesta. Leggi la Privacy Policy sul sito per i dettagli completi." } }
-        ]
-      }
-    ]
+    "@type": "HomeAndConstructionBusiness",
+    "name": "Total Service 24H",
+    "url": "https://totalservice24h.it/",
+    "telephone": "+393927398625",
+    "image": "https://totalservice24h.it/img/logo-transparent.png",
+    "areaServed": { "@type": "Country", "name": "Italia" },
+    "availableLanguage": "it",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Pronto intervento h24",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fabbro h24", "url": "https://totalservice24h.it/fabbro.html" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Idraulico h24", "url": "https://totalservice24h.it/idraulico.html" } }
+      ]
+    }
   }
   </script>
-  <link rel="icon" href="./img/logo.svg" type="image/svg+xml" />
+  <link rel="icon" href="./img/logo-transparent.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/site.css" />
   <script src="./js/tracking-config.js"></script>
 </head>
-<body class="home-page">
+<body class="home-page home-page--minimal">
   <header class="header">
     <div class="wrap header__inner">
       <a href="./index.html" class="logo logo--brand">
-        <img src="./img/logo.svg" alt="Total Service 24H — Fabbro e Idraulico pronto intervento" class="logo__img" width="216" height="72" />
+        <img src="./img/logo-transparent.png" alt="Total Service 24H — Fabbro e Idraulico pronto intervento" class="logo__img" width="200" height="100" />
       </a>
       <nav class="home-nav" aria-label="Menu">
-        <a href="#servizi">Servizi</a>
-        <a href="#whatsapp">WhatsApp</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contatti">Contatti</a>
+        <a href="./fabbro.html">Fabbro</a>
+        <a href="./idraulico.html">Idraulico</a>
       </nav>
       <a href="tel:+393927398625" class="btn-tel-small" aria-label="Chiama 392 739 8625">
         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
@@ -91,280 +73,107 @@
     </div>
   </header>
 
-  <section class="home-hero" aria-label="Scegli il servizio">
-    <div class="home-hero-badge">
-      <p>Pronto intervento h24 · nella tua zona</p>
-      <a href="tel:+393927398625">392 739 8625</a>
-    </div>
-    <a href="./fabbro.html" class="home-panel home-panel--fabbro">
-      <div class="home-panel__bg" aria-hidden="true"></div>
-      <div class="home-panel__shade" aria-hidden="true"></div>
-      <div class="home-panel__content">
-        <p class="home-panel__tag">Pronto intervento</p>
-        <h2>Fabbro h24</h2>
-        <p>Porte bloccate, serrature rotte, porte blindate. Intervento urgente nella tua zona.</p>
-        <span class="btn-mech">Emergenza fabbro</span>
+  <main>
+    <section class="home-hero" aria-label="Scegli il servizio">
+      <div class="home-hero-badge">
+        <p data-day="Pronto intervento h24 · nella tua zona" data-night="Servizio notturno h24 · nella tua zona">Pronto intervento h24 · nella tua zona</p>
+        <a href="tel:+393927398625">392 739 8625</a>
       </div>
-    </a>
-    <a href="./idraulico.html" class="home-panel home-panel--idraulico">
-      <div class="home-panel__bg" aria-hidden="true"></div>
-      <div class="home-panel__shade" aria-hidden="true"></div>
-      <div class="home-panel__content">
-        <p class="home-panel__tag">Pronto intervento</p>
-        <h2>Idraulico h24</h2>
-        <p>Perdite d'acqua, tubi rotti, scarichi intasati. Intervento urgente nella tua zona.</p>
-        <span class="btn-mech">Emergenza idraulico</span>
-      </div>
-    </a>
-  </section>
-
-  <section class="home-section home-section--alt">
-    <div class="home-wrap home-wrap--wide">
-      <p class="home-section__label">Emergenze frequenti</p>
-      <h2>Quale problema hai?</h2>
-      <p class="lead">Seleziona il tuo caso e vai alla pagina di emergenza. Oppure chiama subito il numero unico.</p>
-      <div class="home-emergencies">
-        <div class="home-emergencies__col">
-          <h3>Fabbro</h3>
-          <ul class="home-emergency-list">
-            <li><a href="./fabbro.html"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>Porta bloccata, chiave dentro</a></li>
-            <li><a href="./fabbro.html"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>Serratura rotta o bloccata</a></li>
-            <li><a href="./fabbro.html"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>Porta blindata non si apre</a></li>
-            <li><a href="./fabbro.html"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>Chiuso fuori di notte</a></li>
-          </ul>
+      <a href="./fabbro.html" class="home-panel home-panel--fabbro">
+        <div class="home-panel__bg" aria-hidden="true"></div>
+        <div class="home-panel__shade" aria-hidden="true"></div>
+        <div class="home-panel__content">
+          <p class="home-panel__tag">Pronto intervento</p>
+          <h2>Fabbro h24</h2>
+          <p>Porte bloccate, serrature rotte, porte blindate. Intervento urgente nella tua zona.</p>
+          <span class="btn-mech">Emergenza fabbro</span>
         </div>
-        <div class="home-emergencies__col home-emergencies__col--idraulico">
-          <h3>Idraulico</h3>
-          <ul class="home-emergency-list">
-            <li><a href="./idraulico.html"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8zm0 18c-3.35 0-6-2.57-6-6.2 0-2.34 1.95-5.44 6-9.14 4.05 3.7 6 6.79 6 9.14 0 3.63-2.65 6.2-6 6.2z"/></svg>Perdita d'acqua o allagamento</a></li>
-            <li><a href="./idraulico.html"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>Tubo rotto sotto il lavello</a></li>
-            <li><a href="./idraulico.html"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>Scarico intasato che trabocca</a></li>
-            <li><a href="./idraulico.html"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 13V5c0-1.66-1.34-3-3-3S9 3.34 9 5v8c-1.21.91-2 2.37-2 4 0 2.76 2.24 5 5 5s5-2.24 5-5c0-1.63-.79-3.09-2-4zm-4-8c0-.55.45-1 1-1s1 .45 1 1h-1v1h1v2h-1v1h1v2h-2V5z"/></svg>Rubinetto che perde</a></li>
-          </ul>
+      </a>
+      <a href="./idraulico.html" class="home-panel home-panel--idraulico">
+        <div class="home-panel__bg" aria-hidden="true"></div>
+        <div class="home-panel__shade" aria-hidden="true"></div>
+        <div class="home-panel__content">
+          <p class="home-panel__tag">Pronto intervento</p>
+          <h2>Idraulico h24</h2>
+          <p>Perdite d'acqua, tubi rotti, scarichi intasati. Intervento urgente nella tua zona.</p>
+          <span class="btn-mech">Emergenza idraulico</span>
         </div>
-      </div>
-    </div>
-  </section>
+      </a>
+    </section>
+  </main>
 
-  <section class="home-section">
-    <div class="home-wrap">
-      <p class="home-section__label">Chi siamo</p>
-      <h2>Total Service 24H</h2>
-      <p class="lead">Servizio di pronto intervento per emergenze domestiche. Fabbro e idraulico disponibili h24, anche nei giorni festivi e di notte.</p>
-      <p class="lead mt-1">Al telefono descrivi il problema e verifichiamo se abbiamo un tecnico disponibile nella tua zona.</p>
-      <div class="home-trust">
-        <div><strong>24/7</strong><span>Servizio h24</span></div>
-        <div><strong>h24</strong><span>Anche notturno</span></div>
-        <div><strong>→</strong><span>Nella tua zona</span></div>
-        <div><strong>✓</strong><span>Chiamata gratuita</span></div>
-      </div>
-      <div class="home-pillars">
-        <article class="home-pillar">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-          <strong>Un solo numero</strong>
-          <p>Fabbro e idraulico sulla stessa linea. Niente ricerche, niente attese inutili.</p>
-        </article>
-        <article class="home-pillar">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-          <strong>Risposta immediata</strong>
-          <p>Chiami e parli subito con un operatore. Verifichiamo disponibilità in tempo reale.</p>
-        </article>
-        <article class="home-pillar">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
-          <strong>Tecnici qualificati</strong>
-          <p>Interventi su serrature, blindati, impianti idraulici e perdite d'acqua.</p>
-        </article>
-        <article class="home-pillar">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-          <strong>Trasparenza</strong>
-          <p>Prima di uscire ti indichiamo tempi e modalità. Paghi il tecnico a fine lavoro.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-section home-section--panel" id="whatsapp">
-    <div class="home-wrap">
-      <p class="home-section__label">Richiesta via WhatsApp</p>
-      <h2>Preferisci scrivere?</h2>
-      <p class="lead">Scegli il servizio e compila il modulo WhatsApp sulla pagina dedicata.</p>
-      <div class="home-contact-grid mt-2">
-        <a href="./fabbro.html#whatsapp" class="home-contact-card">
-          <h3>Fabbro</h3>
-          <p>Porte bloccate, serrature, blindati</p>
-          <span class="btn-wa" style="margin-top:.75rem;display:inline-flex;width:auto;padding:.55rem 1rem">WhatsApp Fabbro</span>
-        </a>
-        <a href="./idraulico.html#whatsapp" class="home-contact-card">
-          <h3>Idraulico</h3>
-          <p>Perdite, tubi rotti, scarichi</p>
-          <span class="btn-wa" style="margin-top:.75rem;display:inline-flex;width:auto;padding:.55rem 1rem">WhatsApp Idraulico</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-section" id="servizi">
-    <div class="home-wrap home-wrap--wide">
-      <p class="home-section__label">I nostri servizi</p>
-      <h2>Fabbro e Idraulico</h2>
-      <p class="lead">Due servizi specializzati, un solo numero. Scegli quello che ti serve o chiama direttamente.</p>
-
-      <div class="home-banner home-banner--fabbro">
-        <div class="home-banner__bg" aria-hidden="true"></div>
-        <div class="home-banner__shade" aria-hidden="true"></div>
-        <div class="home-banner__inner">
-          <h3>Fabbro — pronto intervento</h3>
-          <ul>
-            <li>Apertura porte bloccate</li>
-            <li>Riparazione e sostituzione serrature</li>
-            <li>Porte blindate e cassaforti</li>
-            <li>Interventi urgenti notturni</li>
-          </ul>
-          <a href="./fabbro.html" class="btn-mech">Vai all'emergenza fabbro</a>
+  <footer class="footer footer--main">
+    <div class="footer__inner">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="./index.html" class="footer__logo-link">
+            <img src="./img/logo-transparent.png" alt="Total Service 24H" class="footer__logo" width="180" height="60" />
+          </a>
+          <p class="footer__title">TOTAL SERVICE <span>24H</span></p>
+          <p class="footer__tagline">Fabbro · Idraulico</p>
+          <p class="footer__intro">Pronto intervento h24 in Italia. Servizio nella tua zona, attivo di notte e nei festivi — <strong>24/7 · 365 giorni</strong>.</p>
         </div>
-      </div>
-
-      <div class="home-banner home-banner--idraulico mt-2">
-        <div class="home-banner__bg" aria-hidden="true"></div>
-        <div class="home-banner__shade" aria-hidden="true"></div>
-        <div class="home-banner__inner">
-          <h3>Idraulico — pronto intervento</h3>
-          <ul>
-            <li>Perdite d'acqua e allagamenti</li>
-            <li>Tubi rotti e rubinetti</li>
-            <li>Scarichi intasati</li>
-            <li>Interventi urgenti notturni</li>
-          </ul>
-          <a href="./idraulico.html" class="btn-mech">Vai all'emergenza idraulico</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-section home-section--alt">
-    <div class="home-wrap">
-      <p class="home-section__label">Pagamento</p>
-      <h2>Come si paga</h2>
-      <p class="lead">Nessun costo per la chiamata. Il pagamento dell'intervento avviene direttamente con il tecnico al termine del lavoro.</p>
-      <div class="home-pay">
-        <div><strong>Chiamata gratuita</strong><span>Per te non ci sono costi telefonici</span></div>
-        <div><strong>Preventivo al telefono</strong><span>Indicazioni prima dell'uscita del tecnico</span></div>
-        <div><strong>Pagamento in loco</strong><span>Contanti o accordi con il tecnico</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-section" id="faq">
-    <div class="home-wrap">
-      <h2>FAQ</h2>
-      <div class="home-faq">
-        <details>
-          <summary>Operate nella mia zona?</summary>
-          <p>Al momento della chiamata verifichiamo se abbiamo un tecnico disponibile nella tua zona. Indica sempre via e numero civico per una risposta precisa.</p>
-        </details>
-        <details>
-          <summary>Quanto tempo ci vuole per arrivare?</summary>
-          <p>Dipende dalla zona, dall'ora e dalla disponibilità dei tecnici. Te lo confermiamo al telefono prima di inviare qualcuno.</p>
-        </details>
-        <details>
-          <summary>Il servizio è attivo di notte e nei festivi?</summary>
-          <p>Sì. Total Service 24H è attivo h24, 7 giorni su 7, inclusi sabato, domenica e festivi.</p>
-        </details>
-        <details>
-          <summary>Quanto costa l'intervento?</summary>
-          <p>Il costo varia in base al tipo di lavoro e all'orario. Al telefono descrivi il problema e ricevi indicazioni prima che il tecnico parta.</p>
-        </details>
-        <details>
-          <summary>Posso scrivere su WhatsApp invece di chiamare?</summary>
-          <p>Sì, ma per le emergenze il telefono è più veloce. Su WhatsApp trovi il modulo nelle pagine di emergenza Fabbro e Idraulico.</p>
-        </details>
-        <details>
-          <summary>Che dati raccogliete?</summary>
-          <p>Solo quelli necessari per gestire la richiesta. Leggi la nostra <a href="./privacy.html">Privacy Policy</a> per i dettagli completi.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-section home-section--alt">
-    <div class="home-wrap">
-      <p class="home-section__label">Perché Total Service</p>
-      <h2>Un numero, due emergenze risolte</h2>
-      <p class="lead">Non perdere tempo a cercare online. Un'unica linea h24 per fabbro e idraulico, con risposta immediata al telefono.</p>
-      <div class="trust-strip mt-2">
-        <span>Servizio h24</span>
-        <span>Anche festivi</span>
-        <span>Nella tua zona</span>
-        <span>Risposta immediata</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-cta" id="contatti">
-    <div class="home-wrap">
-      <p class="home-section__label">Hai un'emergenza adesso?</p>
-      <h2>Chiama subito</h2>
-      <div class="number-panel">
-        <p class="number-panel__label">Numero unico h24</p>
-        <a href="tel:+393927398625" class="number-panel__phone">392 739 8625</a>
-        <p class="number-panel__sub">Chiamata senza costi per te</p>
-      </div>
-      <a href="tel:+393927398625" class="btn-mech btn-mech--xl" style="margin-left:auto;margin-right:auto">Chiama ora</a>
-      <div class="home-contact-grid">
-        <div class="home-contact-card">
-          <h3>Telefono h24</h3>
-          <p>Il modo più rapido per emergenze fabbro e idraulico.</p>
-          <a href="tel:+393927398625" class="tel-big">392 739 8625</a>
-        </div>
-        <div class="home-contact-card">
-          <h3>Hai un'emergenza?</h3>
-          <p>Per fabbro o idraulico, il telefono è il modo più rapido.</p>
-          <a href="tel:+393927398625" class="tel-big">392 739 8625</a>
-          <p class="mt-1" style="font-size:.78rem;color:var(--muted)">WhatsApp sulle pagine di emergenza</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="wrap">
-      <a href="tel:+393927398625" class="footer-phone">392 739 8625</a>
-      <div class="footer-actions">
-        <p class="footer-trust">Total Service 24H</p>
-      </div>
-      <div class="footer-grid">
-        <div>
-          <h3>Servizi</h3>
-          <ul>
+        <div class="footer__col">
+          <h3 class="footer__heading">Menu</h3>
+          <ul class="footer__links">
+            <li><a href="./index.html">Home</a></li>
             <li><a href="./fabbro.html">Fabbro h24</a></li>
             <li><a href="./idraulico.html">Idraulico h24</a></li>
+            <li><a href="./fabbro.html#faq">FAQ</a></li>
+            <li><a href="tel:+393927398625">Contatti</a></li>
           </ul>
         </div>
-        <div>
-          <h3>Legale</h3>
-          <ul>
-            <li><a href="./privacy.html">Privacy Policy</a></li>
-            <li><a href="./cookie.html">Cookie Policy</a></li>
+        <div class="footer__col">
+          <h3 class="footer__heading">Servizi</h3>
+          <ul class="footer__links">
+            <li><a href="./fabbro.html">Fabbro h24</a></li>
+            <li><a href="./fabbro.html">Apertura porte bloccate</a></li>
+            <li><a href="./fabbro.html">Serrature e blindati</a></li>
+            <li><a href="./idraulico.html">Idraulico h24</a></li>
+            <li><a href="./idraulico.html">Perdite d'acqua</a></li>
+            <li><a href="./idraulico.html">Tubazioni e scarichi</a></li>
+          </ul>
+        </div>
+        <div class="footer__col footer__col--contacts">
+          <h3 class="footer__heading">Contatti</h3>
+          <ul class="footer__contacts">
+            <li>
+              <a href="tel:+393927398625" class="footer__phone-link">
+                <svg class="footer__icon footer__icon--phone" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+                392 739 8625
+              </a>
+            </li>
+            <li>
+              <a href="https://wa.me/393927398625" class="footer__wa-link js-wa-footer" target="_blank" rel="noopener noreferrer">
+                <svg class="footer__icon footer__icon--wa" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+            </li>
+            <li class="footer__hours">
+              <svg class="footer__icon" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+              <span>Aperto 24/7 · 365 giorni</span>
+            </li>
           </ul>
         </div>
       </div>
     </div>
-    <div class="wrap footer-bar">
-      Total Service · P.IVA 05687130285<br>
-      Sito realizzato da <a href="https://rfdigital.it" target="_blank" rel="noopener">RF DIGITAL</a>
+    <div class="footer-bar">
+      <div class="footer-bar__inner">
+        <p class="footer-bar__legal">© 2026 Total Service 24H — P.IVA 05687130285 — Pronto intervento Fabbro e Idraulico h24 in Italia. Tutti i diritti riservati.</p>
+        <p class="footer-bar__credit">Realizzato da <a href="https://rfdigital.it" target="_blank" rel="noopener">RF DIGITAL</a></p>
+        <p class="footer-bar__links"><a href="./privacy.html">Privacy Policy</a> · <a href="./cookie.html">Cookie Policy</a></p>
+      </div>
     </div>
   </footer>
 
-  <div class="sticky-call">
-    <a href="tel:+393927398625">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-      Chiama 392 739 8625
-    </a>
-  </div>
+  <a href="tel:+393927398625" class="call-fab" aria-label="Chiama 392 739 8625">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+    Chiama
+  </a>
 
   <div id="cookie-banner" class="cookie" role="dialog" aria-label="Cookie">
     <strong style="font-size:.85rem">Cookie</strong>
-    <p>Usiamo cookie tecnici e, solo con il tuo consenso, analitici (Google) per misurare le visite. <a href="./cookie.html">Dettagli</a></p>
+    <p>Usiamo cookie tecnici e, solo con il tuo consenso, analitici (Google) per misurare le visite. <a href="./cookie.html">Dettagli</a> · <a href="./privacy.html">Privacy</a></p>
     <div class="cookie__btns">
       <button type="button" id="cookie-accept" class="btn-mech" style="margin:0">Accetta</button>
       <button type="button" id="cookie-reject" class="btn-mech" style="margin:0;background:transparent;color:var(--muted);box-shadow:none;border:1px solid var(--line)">Solo necessari</button>

@@ -5,15 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, follow" />
   <title>Richiesta inviata | Total Service 24H</title>
-  <link rel="icon" href="./img/logo.svg" type="image/svg+xml" />
+  <link rel="icon" href="./img/logo-transparent.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=Inter:wght@400;500;600&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/site.css" />
   <style>
     body.grazie-page {
-      display: flex; align-items: center; justify-content: center;
-      padding: 1.5rem; padding-bottom: 1.5rem;
+      display: block;
+      padding: 2rem 1.25rem 1rem;
+    }
+    .grazie-page main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50svh;
+      padding: 1rem 0 2rem;
     }
     .grazie-card {
       max-width: 26rem; width: 100%;
@@ -36,14 +43,32 @@
   </style>
 </head>
 <body class="grazie-page">
+  <main>
   <div class="grazie-card">
-    <img src="./img/logo.svg" alt="Total Service 24H" class="logo__img" width="200" height="64" />
+    <img src="./img/logo-transparent.png" alt="Total Service 24H" class="logo__img" width="200" height="100" />
     <h1>Richiesta inviata</h1>
     <p id="msg">Resta su WhatsApp: un operatore ti risponderà al più presto per confermare l'intervento.</p>
     <a class="btn-mech btn-mech--xl" href="tel:+393927398625">Chiama 392 739 8625</a>
     <a class="btn-outline" id="back" href="./fabbro.html">Torna al sito</a>
     <p class="note">Tempi indicativi soggetti a disponibilità — conferma al telefono.</p>
   </div>
+  </main>
+
+  <footer class="footer footer--main">
+    <div class="footer-bar">
+      <div class="footer-bar__inner">
+        <p class="footer-bar__legal">© 2026 Total Service 24H — P.IVA 05687130285 — Pronto intervento Fabbro e Idraulico h24 in Italia. Tutti i diritti riservati.</p>
+        <p class="footer-bar__credit">Realizzato da <a href="https://rfdigital.it" target="_blank" rel="noopener">RF DIGITAL</a></p>
+        <p class="footer-bar__links"><a href="./privacy.html">Privacy Policy</a> · <a href="./cookie.html">Cookie Policy</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="tel:+393927398625" class="call-fab" aria-label="Chiama 392 739 8625">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+    Chiama
+  </a>
+
   <script>
     var p = new URLSearchParams(location.search);
     var svc = p.get('svc') || 'fabbro';

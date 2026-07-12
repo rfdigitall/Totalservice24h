@@ -6,9 +6,15 @@
   var WA_NUM = '393927398625'
   var COOKIE_KEY = 'ts_cookie_consent_v1'
   var PROMPT_KEY = 'ts_prompt_shown'
+  var CALL_TS_KEY = 'ts_call_ts'
+  var CALLBACK_DONE_KEY = 'ts_callback_done'
   var GOOGLE_ADS_SEND_TO = TRC.googleAdsSendTo || ''
   var GA4 = TRC.ga4Id || 'G-1LSVPLL52C'
   var TIMED_PROMPT_MS = 35000
+  var CALLBACK_WINDOW_MS = 10000
+  var NIGHT_START = 20
+  var NIGHT_END = 7
+  var callArmed = false
 
   function $(sel, root) { return (root || document).querySelector(sel) }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)) }
@@ -53,19 +59,26 @@
       if (!hasAnalyticsConsent()) return
       window.gtag('event', 'generate_lead', { method: src || 'lead' })
     }
-    $$('a[href^="tel:"]').forEach(function (a) {
+    bindTelTracking($$('a[href^="tel:"]'))
+  }
+
+  function bindTelTracking(links) {
+    links.forEach(function (a) {
       if (a.__tsBound) return
       a.__tsBound = true
-      a.addEventListener('click', function () { if (window.trackTel) window.trackTel() })
+      a.addEventListener('click', function () {
+        markCallAttempt()
+        if (window.trackTel) window.trackTel()
+      })
     })
   }
 
   function initTelLinks() {
-    $$('a[href^="tel:"]').forEach(function (a) {
-      if (a.__tsBound) return
-      a.__tsBound = true
-      a.addEventListener('click', function () { if (window.trackTel) window.trackTel() })
-    })
+    bindTelTracking($$('a[href^="tel:"]'))
+  }
+
+  function setModalOpen(open) {
+    document.body.classList.toggle('modal-open', open)
   }
 
   function thankYou() {
@@ -86,9 +99,9 @@
     var hidden = $('#contact-problem-val')
     if (!wrap || !CFG.urgencies) return
     var keys = Object.keys(CFG.urgencies)
-    hidden.value = keys[0]
-    wrap.innerHTML = keys.map(function (k, i) {
-      return '<button type="button" class="problem-pick__btn' + (i === 0 ? ' is-active' : '') + '" data-val="' + k + '">' + CFG.urgencies[k] + '</button>'
+    hidden.value = ''
+    wrap.innerHTML = keys.map(function (k) {
+      return '<button type="button" class="problem-pick__btn" data-val="' + k + '">' + CFG.urgencies[k] + '</button>'
     }).join('')
     $$('.problem-pick__btn', wrap).forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -99,13 +112,26 @@
     })
   }
 
+  function initFaqAccordion() {
+    $$('.home-faq').forEach(function (faq) {
+      $$('details', faq).forEach(function (det) {
+        det.addEventListener('toggle', function () {
+          if (!det.open) return
+          $$('details', faq).forEach(function (other) {
+            if (other !== det) other.open = false
+          })
+        })
+      })
+    })
+  }
+
   function initContactForm() {
     var form = $('#contact-form')
     if (!form) return
     initProblemPick()
     var sel = $('#contact-problem')
     if (sel && CFG.urgencies && !$('#contact-problem-pick')) {
-      sel.innerHTML = Object.keys(CFG.urgencies).map(function (k) {
+      sel.innerHTML = '<option value="">Seleziona il problema</option>' + Object.keys(CFG.urgencies).map(function (k) {
         return '<option value="' + k + '">' + CFG.urgencies[k] + '</option>'
       }).join('')
     }
@@ -142,18 +168,110 @@
     })
   }
 
+  function markCallAttempt() {
+    if (!$('#callback-modal') || sessionStorage.getItem(CALLBACK_DONE_KEY)) return
+    sessionStorage.setItem(CALL_TS_KEY, String(Date.now()))
+    callArmed = true
+  }
+
+  function openCallbackModal() {
+    var modal = $('#callback-modal')
+    if (!modal || sessionStorage.getItem(CALLBACK_DONE_KEY)) return
+    modal.classList.add('is-open')
+    setModalOpen(true)
+  }
+
+  function closeCallbackModal() {
+    var modal = $('#callback-modal')
+    if (!modal) return
+    modal.classList.remove('is-open')
+    if (!$('.modal.is-open')) setModalOpen(false)
+  }
+
+  function checkCallbackReturn() {
+    if (!callArmed || sessionStorage.getItem(CALLBACK_DONE_KEY)) return
+    var raw = sessionStorage.getItem(CALL_TS_KEY)
+    if (!raw) return
+    var elapsed = Date.now() - Number(raw)
+    if (elapsed > 0 && elapsed < CALLBACK_WINDOW_MS) {
+      openCallbackModal()
+      callArmed = false
+    }
+  }
+
+  function initCallbackGuard() {
+    var modal = $('#callback-modal')
+    var form = $('#callback-form')
+    if (!modal) return
+
+    $$('[data-close-callback]').forEach(function (b) {
+      b.addEventListener('click', function () { closeCallbackModal() })
+    })
+
+    var waAlt = $('[data-callback-wa]')
+    if (waAlt) {
+      waAlt.addEventListener('click', function () {
+        sessionStorage.setItem(CALLBACK_DONE_KEY, '1')
+        closeCallbackModal()
+      })
+    }
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault()
+        var phone = $('#callback-phone').value.trim()
+        var consent = $('#callback-consent').checked
+        var err = $('#callback-err')
+        var digits = phone.replace(/\D/g, '')
+        err.textContent = ''
+        if (digits.length < 9) { err.textContent = 'Inserisci un numero valido.'; return }
+        if (!consent) { err.textContent = 'Accetta la privacy.'; return }
+        if (window.trackLead) window.trackLead('callback_form')
+        var normalized = digits.indexOf('39') === 0 ? '+' + digits : '+39' + digits
+        var svc = CFG.id === 'idraulico' ? 'Idraulico h24' : 'Fabbro h24'
+        var msg = [
+          CFG.whatsappPrefix || 'Richiesta — Total Service 24H',
+          '',
+          'Servizio: ' + svc,
+          'Richiesta richiamata',
+          'Numero cliente: ' + normalized,
+          '',
+          'Non sono riuscito a completare la chiamata. Ricontattatemi al più presto.',
+          'Consenso privacy: confermato',
+          '— totalservice24h.it'
+        ].join('\n')
+        sessionStorage.setItem(CALLBACK_DONE_KEY, '1')
+        window.open(waUrl(msg), '_blank', 'noopener,noreferrer')
+        closeCallbackModal()
+        thankYou()
+      })
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') checkCallbackReturn()
+    })
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) checkCallbackReturn()
+    })
+    window.addEventListener('focus', checkCallbackReturn)
+  }
+
   function openCallPrompt() {
     var modal = $('#exit-modal')
     if (!modal || sessionStorage.getItem(PROMPT_KEY)) return
     sessionStorage.setItem(PROMPT_KEY, '1')
     modal.classList.add('is-open')
+    setModalOpen(true)
   }
 
   function initCallPrompt() {
     var modal = $('#exit-modal')
     if (!modal) return
     $$('[data-close-exit]').forEach(function (b) {
-      b.addEventListener('click', function () { modal.classList.remove('is-open') })
+      b.addEventListener('click', function () {
+        modal.classList.remove('is-open')
+        if (!$('.modal.is-open')) setModalOpen(false)
+      })
     })
     if (!sessionStorage.getItem(PROMPT_KEY)) {
       setTimeout(openCallPrompt, TIMED_PROMPT_MS)
@@ -162,6 +280,28 @@
       if (e.clientY > 0 || sessionStorage.getItem(PROMPT_KEY)) return
       openCallPrompt()
     }, { once: true })
+  }
+
+  function getRomeHour() {
+    return parseInt(new Intl.DateTimeFormat('it-IT', {
+      timeZone: 'Europe/Rome',
+      hour: 'numeric',
+      hour12: false
+    }).format(new Date()), 10)
+  }
+
+  function isNightMode() {
+    var h = getRomeHour()
+    return h >= NIGHT_START || h < NIGHT_END
+  }
+
+  function initDayNight() {
+    var night = isNightMode()
+    document.body.classList.toggle('theme-night', night)
+    $$('[data-day]').forEach(function (el) {
+      var text = night ? el.getAttribute('data-night') : el.getAttribute('data-day')
+      if (text) el.textContent = text
+    })
   }
 
   function initCookie() {
@@ -197,14 +337,27 @@
     ul.innerHTML = CFG.footerServices.map(function (s) { return '<li>' + s + '</li>' }).join('')
   }
 
+  function initAdsTraffic() {
+    var params = new URLSearchParams(location.search)
+    if (params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google') {
+      document.body.classList.add('ads-traffic')
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.remove('modal-open')
+    initAdsTraffic()
+    initDayNight()
     renderServices()
     renderFooterServices()
     initTelLinks()
     initContactForm()
+    initFaqAccordion()
+    initCallbackGuard()
     initCallPrompt()
     initCookie()
-    var wa = $('.js-wa-footer')
-    if (wa) wa.href = waUrl(CFG.whatsappPrefix || 'Richiesta assistenza')
+    $$('.js-wa-footer').forEach(function (wa) {
+      wa.href = waUrl(CFG.whatsappPrefix || 'Richiesta assistenza — Total Service 24H')
+    })
   })
 })()
