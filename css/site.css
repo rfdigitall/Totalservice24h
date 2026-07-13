@@ -887,6 +887,99 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
 .home-emergency-list svg { width: 1.25rem; height: 1.25rem; flex-shrink: 0; color: var(--accent); opacity: .9; }
 .home-emergencies__col--idraulico .home-emergency-list svg { color: #9DBBB1; }
 
+/* Problem tiles — “Il tuo problema è qui?” */
+.problem-grid {
+  display: grid;
+  gap: .75rem;
+  margin-top: 1.5rem;
+}
+@media (min-width: 560px) {
+  .problem-grid { grid-template-columns: 1fr 1fr; gap: .85rem; }
+}
+.problem-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  padding: 1.15rem 1.15rem 1.05rem;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.035) 0%, transparent 48%),
+    var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .18s, transform .18s, background .18s;
+}
+.problem-tile::after {
+  content: '';
+  position: absolute;
+  inset: auto -20% -40% auto;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,144,164,.16), transparent 70%);
+  pointer-events: none;
+}
+.theme-idraulico .problem-tile::after,
+.problem-grid--idraulico .problem-tile::after {
+  background: radial-gradient(circle, rgba(111,143,134,.16), transparent 70%);
+}
+.problem-tile:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  background:
+    linear-gradient(160deg, rgba(74,144,164,.08) 0%, transparent 50%),
+    var(--ink);
+}
+.theme-idraulico .problem-tile:hover,
+.problem-grid--idraulico .problem-tile:hover {
+  background:
+    linear-gradient(160deg, rgba(111,143,134,.1) 0%, transparent 50%),
+    var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .problem-tile:hover { transform: none; }
+}
+.problem-tile__icon {
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: rgba(74,144,164,.12);
+  border: 1px solid rgba(74,144,164,.28);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.theme-idraulico .problem-tile__icon,
+.problem-grid--idraulico .problem-tile__icon {
+  background: rgba(111,143,134,.14);
+  border-color: rgba(157,187,177,.35);
+}
+.problem-tile__icon svg { width: 1.15rem; height: 1.15rem; }
+.problem-tile strong {
+  display: block;
+  font-size: .95rem;
+  font-weight: 650;
+  letter-spacing: -.01em;
+  line-height: 1.25;
+}
+.problem-tile p {
+  margin: 0;
+  font-size: .78rem;
+  color: var(--muted);
+  line-height: 1.45;
+  max-width: 28ch;
+}
+.problem-tile__cta {
+  margin-top: .25rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
 .home-pillars { display: grid; gap: .75rem; margin-top: 1.5rem; }
 @media (min-width: 640px) { .home-pillars { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 900px) { .home-pillars { grid-template-columns: repeat(4, 1fr); } }
