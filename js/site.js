@@ -125,6 +125,27 @@
     })
   }
 
+  function initSvcChooser() {
+    $$('[data-svc-chooser]').forEach(function (root) {
+      var cats = $$('.svc-chooser__cat', root)
+      var panels = $$('.svc-chooser__panel', root)
+      if (!cats.length || !panels.length) return
+      cats.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-cat')
+          cats.forEach(function (c) {
+            var on = c === btn
+            c.classList.toggle('is-active', on)
+            c.setAttribute('aria-selected', on ? 'true' : 'false')
+          })
+          panels.forEach(function (p) {
+            p.classList.toggle('is-active', p.getAttribute('data-panel') === id)
+          })
+        })
+      })
+    })
+  }
+
   function initContactForm() {
     var form = $('#contact-form')
     if (!form) return
@@ -353,6 +374,7 @@
     initTelLinks()
     initContactForm()
     initFaqAccordion()
+    initSvcChooser()
     initCallbackGuard()
     initCallPrompt()
     initCookie()
