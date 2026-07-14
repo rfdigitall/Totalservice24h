@@ -6,7 +6,7 @@
   <meta name="format-detection" content="telephone=yes" />
   <meta name="theme-color" content="#14171B" />
   <meta name="robots" content="index, follow" />
-  <meta name="description" content="392 739 8625 — Total Service 24H. Fabbro e Idraulico h24: porte, cancelli, garage, tapparelle, fabbro auto, perdite d'acqua, scarichi e caldaie. Chiama subito." />
+  <meta name="description" content="392 739 8625 — Total Service 24H. Pronto intervento Fabbro e Idraulico h24 in Italia. Servizio nella tua zona, attivo di notte e nei festivi. Chiama subito." />
   <title>392 739 8625 — Fabbro e Idraulico h24 | Pronto intervento Italia | Total Service 24H</title>
   <link rel="canonical" href="https://totalservice24h.it/" />
   <link rel="alternate" hreflang="it-IT" href="https://totalservice24h.it/" />
@@ -33,19 +33,6 @@
     "image": "https://totalservice24h.it/img/logo-transparent.png",
     "areaServed": { "@type": "Country", "name": "Italia" },
     "availableLanguage": "it",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+393927398625",
-      "contactType": "customer service",
-      "availableLanguage": ["Italian"],
-      "areaServed": "IT",
-      "hoursAvailable": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-        "opens": "00:00",
-        "closes": "23:59"
-      }
-    },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
@@ -57,11 +44,7 @@
       "name": "Pronto intervento h24",
       "itemListElement": [
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fabbro h24", "url": "https://totalservice24h.it/fabbro.html" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cancelli e porte basculanti garage", "url": "https://totalservice24h.it/fabbro.html#servizi" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Tapparelle e serrande", "url": "https://totalservice24h.it/fabbro.html#servizi" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fabbro auto", "url": "https://totalservice24h.it/fabbro.html#servizi" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Idraulico h24", "url": "https://totalservice24h.it/idraulico.html" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Scarichi, caldaie e impianti", "url": "https://totalservice24h.it/idraulico.html#servizi" } }
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Idraulico h24", "url": "https://totalservice24h.it/idraulico.html" } }
       ]
     }
   }
@@ -69,15 +52,19 @@
   <link rel="icon" href="./img/logo-transparent.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Roboto+Slab:wght@700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet" /></noscript>
+  <link rel="preload" href="./css/site.css" as="style" />
   <link rel="stylesheet" href="./css/site.css" />
-  <script src="./js/tracking-config.js"></script>
+  <link rel="preload" as="image" href="./img/bg-lock.webp" type="image/webp" fetchpriority="high" />
+  <script src="./js/tracking-config.js" defer></script>
 </head>
 <body class="home-page home-page--minimal">
   <header class="header">
     <div class="wrap header__inner">
       <a href="./index.html" class="logo logo--brand">
-        <img src="./img/logo-transparent.png" alt="Total Service 24H — Fabbro e Idraulico pronto intervento" class="logo__img" width="200" height="100" />
+        <picture><source srcset="./img/logo-transparent-200.webp 200w, ./img/logo-transparent.webp 400w" sizes="(max-width:480px) 200px, 400px" type="image/webp" /><picture><source srcset="./img/logo-transparent-200.webp 200w, ./img/logo-transparent.webp 400w" sizes="(max-width:480px) 200px, 400px" type="image/webp" /><img src="./img/logo-transparent.png" alt="Total Service 24H — Fabbro e Idraulico pronto intervento" class="logo__img" width="200" height="100" /></picture></picture>
       </a>
       <nav class="home-nav" aria-label="Menu">
         <a href="./fabbro.html">Fabbro</a>
@@ -97,22 +84,22 @@
         <a href="tel:+393927398625">392 739 8625</a>
       </div>
       <a href="./fabbro.html" class="home-panel home-panel--fabbro">
-        <div class="home-panel__bg" aria-hidden="true"></div>
+        <img class="home-panel__bg" src="./img/bg-lock.webp" alt="" width="960" height="640" fetchpriority="high" decoding="async" />
         <div class="home-panel__shade" aria-hidden="true"></div>
         <div class="home-panel__content">
           <p class="home-panel__tag">Pronto intervento</p>
           <h2>Fabbro h24</h2>
-          <p>Porte, serrature, cancelli, basculanti, tapparelle, serrande e fabbro auto.</p>
+          <p>Porte bloccate, serrature rotte, porte blindate. Intervento urgente nella tua zona.</p>
           <span class="btn-mech">Emergenza fabbro</span>
         </div>
       </a>
       <a href="./idraulico.html" class="home-panel home-panel--idraulico">
-        <div class="home-panel__bg" aria-hidden="true"></div>
+        <img class="home-panel__bg" src="./img/idraulico-bg.webp" alt="" width="960" height="640" loading="lazy" decoding="async" />
         <div class="home-panel__shade" aria-hidden="true"></div>
         <div class="home-panel__content">
           <p class="home-panel__tag">Pronto intervento</p>
           <h2>Idraulico h24</h2>
-          <p>Perdite, tubi, scarichi, sanitari, caldaie e termosifoni. Intervento urgente.</p>
+          <p>Perdite d'acqua, tubi rotti, scarichi intasati. Intervento urgente nella tua zona.</p>
           <span class="btn-mech">Emergenza idraulico</span>
         </div>
       </a>
@@ -124,7 +111,7 @@
       <div class="footer__grid">
         <div class="footer__brand">
           <a href="./index.html" class="footer__logo-link">
-            <img src="./img/logo-transparent.png" alt="Total Service 24H" class="footer__logo" width="180" height="60" />
+            <picture><source srcset="./img/logo-transparent-200.webp" type="image/webp" /><img src="./img/logo-transparent.png" alt="Total Service 24H" class="footer__logo" width="180" height="60" loading="lazy" decoding="async" /></picture>
           </a>
           <p class="footer__title">TOTAL SERVICE <span>24H</span></p>
           <p class="footer__tagline">Fabbro · Idraulico</p>
@@ -144,11 +131,11 @@
           <h3 class="footer__heading">Servizi</h3>
           <ul class="footer__links">
             <li><a href="./fabbro.html">Fabbro h24</a></li>
-            <li><a href="./fabbro.html#servizi">Cancelli e garage</a></li>
-            <li><a href="./fabbro.html#servizi">Tapparelle · Fabbro auto</a></li>
+            <li><a href="./fabbro.html">Apertura porte bloccate</a></li>
+            <li><a href="./fabbro.html">Serrature e blindati</a></li>
             <li><a href="./idraulico.html">Idraulico h24</a></li>
             <li><a href="./idraulico.html">Perdite d'acqua</a></li>
-            <li><a href="./idraulico.html#servizi">Scarichi e riscaldamento</a></li>
+            <li><a href="./idraulico.html">Tubazioni e scarichi</a></li>
           </ul>
         </div>
         <div class="footer__col footer__col--contacts">
@@ -183,6 +170,11 @@
     </div>
   </footer>
 
+  <a href="tel:+393927398625" class="call-fab" aria-label="Chiama 392 739 8625">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+    Chiama
+  </a>
+
   <div id="cookie-banner" class="cookie" role="dialog" aria-label="Cookie">
     <strong style="font-size:.85rem">Cookie</strong>
     <p>Usiamo cookie tecnici e, solo con il tuo consenso, analitici (Google) per misurare le visite. <a href="./cookie.html">Dettagli</a> · <a href="./privacy.html">Privacy</a></p>
@@ -192,6 +184,7 @@
     </div>
   </div>
 
+  <script src="./js/tracking-config.js"></script>
   <script src="./js/site.js" defer></script>
 </body>
 </html>

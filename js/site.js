@@ -43,23 +43,59 @@
     })
   }
 
+  function loadGtagScript(done) {
+    if (window.__tsGtagLoaded) {
+      done()
+      return
+    }
+    var GOOGLE_ADS = TRC.googleAdsId || ''
+    var GA4 = TRC.ga4Id || 'G-5M16LNBYZP'
+    var PHONE = TRC.phoneE164 || '+393927398625'
+    var SEND_TO = TRC.googleAdsSendTo || ''
+    var s = document.createElement('script')
+    s.async = true
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA4)
+    s.onload = function () {
+      window.__tsGtagLoaded = true
+      window.gtag('js', new Date())
+      window.gtag('config', GA4, { anonymize_ip: true, send_page_view: false })
+      window.gtag('set', {
+        phone_conversion_number: PHONE,
+        phone_conversion_ids: SEND_TO ? [SEND_TO] : [],
+      })
+      if (GOOGLE_ADS) {
+        window.gtag('config', GOOGLE_ADS, {
+          anonymize_ip: true,
+          conversion_linker: true,
+          allow_enhanced_conversions: true,
+          phone_conversion_number: PHONE,
+        })
+      }
+      done()
+    }
+    document.head.appendChild(s)
+  }
+
   function setupTracking() {
     if (window.__tsTrackReady || !hasAnalyticsConsent()) return
-    window.__tsTrackReady = true
-    grantConsent()
-    window.gtag('config', GA4, { anonymize_ip: true, send_page_view: true })
-    window.trackTel = function () {
-      if (!hasAnalyticsConsent()) return
-      window.gtag('event', 'generate_lead', { method: 'phone' })
-      if (GOOGLE_ADS_SEND_TO) {
-        window.gtag('event', 'conversion', { send_to: GOOGLE_ADS_SEND_TO })
+    loadGtagScript(function () {
+      if (window.__tsTrackReady) return
+      window.__tsTrackReady = true
+      grantConsent()
+      window.gtag('config', GA4, { anonymize_ip: true, send_page_view: true })
+      window.trackTel = function () {
+        if (!hasAnalyticsConsent()) return
+        window.gtag('event', 'generate_lead', { method: 'phone' })
+        if (GOOGLE_ADS_SEND_TO) {
+          window.gtag('event', 'conversion', { send_to: GOOGLE_ADS_SEND_TO })
+        }
       }
-    }
-    window.trackLead = function (src) {
-      if (!hasAnalyticsConsent()) return
-      window.gtag('event', 'generate_lead', { method: src || 'lead' })
-    }
-    bindTelTracking($$('a[href^="tel:"]'))
+      window.trackLead = function (src) {
+        if (!hasAnalyticsConsent()) return
+        window.gtag('event', 'generate_lead', { method: src || 'lead' })
+      }
+      bindTelTracking($$('a[href^="tel:"]'))
+    })
   }
 
   function bindTelTracking(links) {
@@ -119,27 +155,6 @@
           if (!det.open) return
           $$('details', faq).forEach(function (other) {
             if (other !== det) other.open = false
-          })
-        })
-      })
-    })
-  }
-
-  function initSvcChooser() {
-    $$('[data-svc-chooser]').forEach(function (root) {
-      var cats = $$('.svc-chooser__cat', root)
-      var panels = $$('.svc-chooser__panel', root)
-      if (!cats.length || !panels.length) return
-      cats.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var id = btn.getAttribute('data-cat')
-          cats.forEach(function (c) {
-            var on = c === btn
-            c.classList.toggle('is-active', on)
-            c.setAttribute('aria-selected', on ? 'true' : 'false')
-          })
-          panels.forEach(function (p) {
-            p.classList.toggle('is-active', p.getAttribute('data-panel') === id)
           })
         })
       })
@@ -358,24 +373,6 @@
     ul.innerHTML = CFG.footerServices.map(function (s) { return '<li>' + s + '</li>' }).join('')
   }
 
-  function initCallFab() {
-    var fab = $('.call-fab')
-    if (!fab) return
-    if (document.body.classList.contains('home-page')) {
-      fab.hidden = true
-      return
-    }
-    var shown = false
-    function update() {
-      var show = window.scrollY > 8
-      if (show === shown) return
-      shown = show
-      fab.classList.toggle('is-visible', show)
-    }
-    update()
-    window.addEventListener('scroll', update, { passive: true })
-  }
-
   function initAdsTraffic() {
     var params = new URLSearchParams(location.search)
     if (params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google') {
@@ -386,14 +383,12 @@
   document.addEventListener('DOMContentLoaded', function () {
     document.body.classList.remove('modal-open')
     initAdsTraffic()
-    initCallFab()
     initDayNight()
     renderServices()
     renderFooterServices()
     initTelLinks()
     initContactForm()
     initFaqAccordion()
-    initSvcChooser()
     initCallbackGuard()
     initCallPrompt()
     initCookie()

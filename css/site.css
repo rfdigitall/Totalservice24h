@@ -29,7 +29,7 @@ body {
   line-height: 1.55;
   min-height: 100vh;
   min-height: 100svh;
-  padding-bottom: 0;
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0));
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -39,7 +39,6 @@ body.grazie-page {
   background: transparent;
   overflow-y: auto;
   height: auto;
-  padding-bottom: 0;
 }
 body.modal-open {
   overflow: hidden;
@@ -214,7 +213,6 @@ h1 em { font-style: normal; color: var(--accent); }
 
 
 .problem-pick { display: grid; gap: .45rem; }
-@media (min-width: 480px) { .problem-pick { grid-template-columns: 1fr 1fr; } }
 .problem-pick__btn {
   width: 100%; text-align: left; padding: .7rem .85rem;
   border-radius: 6px; border: 1px solid var(--line);
@@ -228,136 +226,6 @@ h1 em { font-style: normal; color: var(--accent); }
   box-shadow: inset 0 0 0 1px var(--accent);
 }
 .theme-idraulico .problem-pick__btn.is-active { background: rgba(111,143,134,.18); }
-
-/* Service category chooser — clean, not overloaded */
-.svc-chooser {
-  margin-top: 1.5rem;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: rgba(27, 31, 36, 0.72);
-  overflow: hidden;
-}
-.svc-chooser__intro {
-  padding: 1.15rem 1.25rem .85rem;
-  border-bottom: 1px solid var(--line);
-}
-.svc-chooser__intro h3 {
-  font-size: 1.05rem;
-  margin: 0 0 .35rem;
-}
-.svc-chooser__intro p {
-  margin: 0;
-  font-size: .8rem;
-  color: var(--muted);
-  line-height: 1.45;
-  max-width: 48ch;
-}
-.svc-chooser__cats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border-bottom: 1px solid var(--line);
-}
-@media (min-width: 720px) {
-  .svc-chooser__cats { grid-template-columns: repeat(4, 1fr); }
-}
-.svc-chooser__cat {
-  appearance: none;
-  border: 0;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: transparent;
-  color: var(--muted);
-  font-family: inherit;
-  font-size: .78rem;
-  font-weight: 600;
-  letter-spacing: .01em;
-  padding: .95rem .7rem;
-  cursor: pointer;
-  text-align: center;
-  line-height: 1.25;
-  transition: color .15s, background .15s, box-shadow .15s;
-}
-.svc-chooser__cats .svc-chooser__cat:nth-child(2n) { border-right: 0; }
-@media (min-width: 720px) {
-  .svc-chooser__cats .svc-chooser__cat { border-bottom: 0; }
-  .svc-chooser__cats .svc-chooser__cat:nth-child(2n) { border-right: 1px solid var(--line); }
-  .svc-chooser__cats .svc-chooser__cat:last-child { border-right: 0; }
-}
-.svc-chooser__cat:hover { color: var(--paper); background: rgba(255,255,255,.03); }
-.svc-chooser__cat.is-active {
-  color: var(--paper);
-  background: rgba(74,144,164,.12);
-  box-shadow: inset 0 -2px 0 var(--accent);
-}
-.theme-idraulico .svc-chooser__cat.is-active {
-  background: rgba(111,143,134,.14);
-}
-.svc-chooser__panel { display: none; padding: .85rem 1rem 1.1rem; }
-.svc-chooser__panel.is-active { display: block; animation: svc-fade .28s ease; }
-@keyframes svc-fade {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .svc-chooser__panel.is-active { animation: none; }
-}
-.svc-chooser__list {
-  list-style: none;
-  display: grid;
-  gap: .4rem;
-  margin: 0;
-  padding: 0;
-}
-@media (min-width: 640px) {
-  .svc-chooser__list { grid-template-columns: 1fr 1fr; gap: .45rem .6rem; }
-}
-.svc-chooser__list a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-  padding: .8rem .9rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--ink);
-  font-size: .84rem;
-  font-weight: 500;
-  transition: border-color .15s, background .15s, transform .15s;
-}
-.svc-chooser__list a:hover {
-  border-color: var(--accent);
-  background: rgba(255,255,255,.03);
-}
-.svc-chooser__list a:active { transform: scale(.99); }
-.svc-chooser__list a span {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: .65rem;
-  color: var(--accent);
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-.svc-chooser__foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-  padding: .9rem 1.15rem 1.15rem;
-  border-top: 1px solid var(--line);
-}
-.svc-chooser__foot p {
-  margin: 0;
-  font-size: .75rem;
-  color: var(--muted);
-}
-.svc-chooser__foot .btn-mech {
-  margin: 0;
-  max-width: none;
-  font-size: .85rem;
-  padding: .7rem 1rem;
-}
 
 input, select {
   width: 100%; padding: .65rem .8rem; border-radius: 6px;
@@ -564,7 +432,9 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
 }
 .footer-bar__credit a,
 .footer-bar__links a {
-  color: var(--accent-light);
+  color: #8ed4f0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
   transition: color .15s ease;
 }
 .footer-bar__credit a:hover,
@@ -585,27 +455,11 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   font-weight: 700;
   font-size: .95rem;
   box-shadow: 0 8px 28px rgba(0,0,0,.45);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(10px);
-  transition: opacity .2s ease, transform .2s ease, visibility .2s ease, box-shadow .15s ease;
-}
-.call-fab.is-visible {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: none;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
 .call-fab:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(0,0,0,.5);
-}
-.call-fab.is-visible:hover {
-  transform: translateY(-2px);
-}
-@media (prefers-reduced-motion: reduce) {
-  .call-fab { transition: none; }
 }
 .legal-page { padding-bottom: 0; }
 .legal-page main {
@@ -786,11 +640,22 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   transform: none;
   pointer-events: none;
 }
+img.home-panel__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background-image: none;
+}
 @media (hover: hover) and (pointer: fine) {
   .home-panel__bg { transition: transform .4s ease; }
 }
-.home-panel--fabbro .home-panel__bg { background-image: url('../img/bg-lock.jpg'); }
-.home-panel--idraulico .home-panel__bg { background-image: url('../img/idraulico-bg.jpg'); }
+.home-panel--fabbro .home-panel__bg:not(img) {
+  background-image: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg'));
+}
+.home-panel--idraulico .home-panel__bg:not(img) {
+  background-image: image-set(url('../img/idraulico-bg.webp') type('image/webp'), url('../img/idraulico-bg.jpg') type('image/jpeg'));
+}
 
 .home-panel__shade {
   position: absolute; inset: 0;
@@ -858,8 +723,12 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   position: absolute; inset: 0; background-size: cover; background-position: center;
   filter: brightness(0.42);
 }
-.home-banner--fabbro .home-banner__bg { background-image: url('../img/bg-lock.jpg'); }
-.home-banner--idraulico .home-banner__bg { background-image: url('../img/idraulico-bg.jpg'); }
+.home-banner--fabbro .home-banner__bg {
+  background-image: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg'));
+}
+.home-banner--idraulico .home-banner__bg {
+  background-image: image-set(url('../img/idraulico-bg.webp') type('image/webp'), url('../img/idraulico-bg.jpg') type('image/jpeg'));
+}
 .home-banner__shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(20,23,27,.95) 0%, rgba(20,23,27,.3) 100%); }
 .home-banner__inner { position: relative; z-index: 1; width: 100%; }
 .home-banner h3 { font-size: 1.15rem; margin-bottom: .5rem; }
@@ -903,99 +772,6 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
 .home-emergency-list a:hover { border-color: var(--accent); background: rgba(255,255,255,.03); }
 .home-emergency-list svg { width: 1.25rem; height: 1.25rem; flex-shrink: 0; color: var(--accent); opacity: .9; }
 .home-emergencies__col--idraulico .home-emergency-list svg { color: #9DBBB1; }
-
-/* Problem tiles — “Il tuo problema è qui?” */
-.problem-grid {
-  display: grid;
-  gap: .75rem;
-  margin-top: 1.5rem;
-}
-@media (min-width: 560px) {
-  .problem-grid { grid-template-columns: 1fr 1fr; gap: .85rem; }
-}
-.problem-tile {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: .55rem;
-  padding: 1.15rem 1.15rem 1.05rem;
-  background:
-    linear-gradient(160deg, rgba(255,255,255,.035) 0%, transparent 48%),
-    var(--ink);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: border-color .18s, transform .18s, background .18s;
-}
-.problem-tile::after {
-  content: '';
-  position: absolute;
-  inset: auto -20% -40% auto;
-  width: 7rem;
-  height: 7rem;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(74,144,164,.16), transparent 70%);
-  pointer-events: none;
-}
-.theme-idraulico .problem-tile::after,
-.problem-grid--idraulico .problem-tile::after {
-  background: radial-gradient(circle, rgba(111,143,134,.16), transparent 70%);
-}
-.problem-tile:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  background:
-    linear-gradient(160deg, rgba(74,144,164,.08) 0%, transparent 50%),
-    var(--ink);
-}
-.theme-idraulico .problem-tile:hover,
-.problem-grid--idraulico .problem-tile:hover {
-  background:
-    linear-gradient(160deg, rgba(111,143,134,.1) 0%, transparent 50%),
-    var(--ink);
-}
-@media (prefers-reduced-motion: reduce) {
-  .problem-tile:hover { transform: none; }
-}
-.problem-tile__icon {
-  width: 2.35rem;
-  height: 2.35rem;
-  border-radius: 9px;
-  display: grid;
-  place-items: center;
-  background: rgba(74,144,164,.12);
-  border: 1px solid rgba(74,144,164,.28);
-  color: var(--accent);
-  flex-shrink: 0;
-}
-.theme-idraulico .problem-tile__icon,
-.problem-grid--idraulico .problem-tile__icon {
-  background: rgba(111,143,134,.14);
-  border-color: rgba(157,187,177,.35);
-}
-.problem-tile__icon svg { width: 1.15rem; height: 1.15rem; }
-.problem-tile strong {
-  display: block;
-  font-size: .95rem;
-  font-weight: 650;
-  letter-spacing: -.01em;
-  line-height: 1.25;
-}
-.problem-tile p {
-  margin: 0;
-  font-size: .78rem;
-  color: var(--muted);
-  line-height: 1.45;
-  max-width: 28ch;
-}
-.problem-tile__cta {
-  margin-top: .25rem;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: .68rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
 
 .home-pillars { display: grid; gap: .75rem; margin-top: 1.5rem; }
 @media (min-width: 640px) { .home-pillars { grid-template-columns: repeat(2, 1fr); } }
@@ -1065,10 +841,10 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
 }
 
 /* landing pages — fabbro / idraulico premium */
-.page-landing--fabbro { --site-bg: url('../img/bg-lock.jpg'); }
-.page-landing--idraulico { --site-bg: url('../img/idraulico-bg.jpg'); }
+.page-landing--fabbro { --site-bg: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg')); }
+.page-landing--idraulico { --site-bg: image-set(url('../img/idraulico-bg.webp') type('image/webp'), url('../img/idraulico-bg.jpg') type('image/jpeg')); }
 .legal-page,
-.grazie-page { --site-bg: url('../img/bg-lock.jpg'); }
+.grazie-page { --site-bg: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg')); }
 
 .page-landing::before,
 .legal-page::before,
@@ -1131,8 +907,12 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   filter: brightness(0.42); transform: none;
   pointer-events: none;
 }
-.lp-hero--fabbro .lp-hero__bg { background-image: url('../img/bg-lock.jpg'); }
-.lp-hero--idraulico .lp-hero__bg { background-image: url('../img/idraulico-bg.jpg'); }
+.lp-hero--fabbro .lp-hero__bg {
+  background-image: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg'));
+}
+.lp-hero--idraulico .lp-hero__bg {
+  background-image: image-set(url('../img/idraulico-bg.webp') type('image/webp'), url('../img/idraulico-bg.jpg') type('image/jpeg'));
+}
 .lp-hero__shade {
   position: absolute; inset: 0;
   background: linear-gradient(175deg, rgba(20,23,27,.55) 0%, rgba(20,23,27,.82) 45%, var(--ink) 92%);
