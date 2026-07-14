@@ -148,27 +148,6 @@
     })
   }
 
-  function initSvcChooser() {
-    $$('[data-svc-chooser]').forEach(function (root) {
-      var cats = $$('.svc-chooser__cat', root)
-      var panels = $$('.svc-chooser__panel', root)
-      if (!cats.length || !panels.length) return
-      cats.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var id = btn.getAttribute('data-cat')
-          cats.forEach(function (c) {
-            var on = c === btn
-            c.classList.toggle('is-active', on)
-            c.setAttribute('aria-selected', on ? 'true' : 'false')
-          })
-          panels.forEach(function (p) {
-            p.classList.toggle('is-active', p.getAttribute('data-panel') === id)
-          })
-        })
-      })
-    })
-  }
-
   function initFaqAccordion() {
     $$('.home-faq').forEach(function (faq) {
       $$('details', faq).forEach(function (det) {
@@ -399,24 +378,6 @@
     if (params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google') {
       document.body.classList.add('ads-traffic')
     }
-  }
-
-  function initCallFab() {
-    var fab = $('.call-fab')
-    if (!fab) return
-    if (document.body.classList.contains('home-page')) {
-      fab.hidden = true
-      return
-    }
-    var shown = false
-    function update() {
-      var show = window.scrollY > 8
-      if (show === shown) return
-      shown = show
-      fab.classList.toggle('is-visible', show)
-    }
-    update()
-    window.addEventListener('scroll', update, { passive: true })
   }
 
   document.addEventListener('DOMContentLoaded', function () {
