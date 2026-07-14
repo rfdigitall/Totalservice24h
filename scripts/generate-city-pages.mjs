@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { CITIES, PHONE_DISPLAY, PHONE_TEL, SITE_BASE, cityPageUrl } from './cities.config.mjs'
+import { buildLandingConfigScript } from './services.config.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
@@ -174,19 +175,12 @@ function buildCityPage(baseHtml, city) {
   html = replaceOrWarn(
     html,
     /<script>\s*window\.LANDING_CONFIG = [\s\S]*?<\/script>/,
-    `<script>
-    window.LANDING_CONFIG = {
-      id: 'fabbro-${slug}',
-      city: '${name}',
-      whatsappPrefix: 'Richiesta Fabbro h24 a ${name} — Total Service 24H',
-      urgencies: {
-        porta: 'Porta bloccata / non si apre',
-        serratura: 'Serratura rotta o bloccata',
-        blindato: 'Porta blindata / cassaforte',
-        altro: 'Altro problema fabbro'
-      }
-    }
-  </script>`,
+    buildLandingConfigScript({
+      id: `fabbro-${slug}`,
+      city: name,
+      service: 'fabbro',
+      whatsappPrefix: `Richiesta Fabbro h24 a ${name} — Total Service 24H`,
+    }),
     'LANDING_CONFIG',
   )
   html = html.replace('class="page-landing page-landing--fabbro"', `class="page-landing page-landing--fabbro page-landing--city page-landing--${slug}"`)

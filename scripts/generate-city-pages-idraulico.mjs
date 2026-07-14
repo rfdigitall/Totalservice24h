@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { CITIES, PHONE_DISPLAY, PHONE_TEL, SITE_BASE } from './cities.config.mjs'
+import { buildLandingConfigScript } from './services.config.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
@@ -177,20 +178,12 @@ function buildCityPage(baseHtml, city) {
   html = replaceOrWarn(
     html,
     /<script>\s*window\.LANDING_CONFIG = [\s\S]*?<\/script>/,
-    `<script>
-    window.LANDING_CONFIG = {
-      id: 'idraulico-${slug}',
-      city: '${name}',
-      whatsappPrefix: 'Richiesta Idraulico h24 a ${name} — Total Service 24H',
-      urgencies: {
-        perdita: 'Perdita d\\'acqua / allagamento',
-        tubo: 'Tubo rotto / rubinetto',
-        scarico: 'Scarico intasato',
-        caldaia: 'Caldaia / scaldabagno',
-        altro: 'Altro problema idraulico'
-      }
-    }
-  </script>`,
+    buildLandingConfigScript({
+      id: `idraulico-${slug}`,
+      city: name,
+      service: 'idraulico',
+      whatsappPrefix: `Richiesta Idraulico h24 a ${name} — Total Service 24H`,
+    }),
     'LANDING_CONFIG',
   )
   html = html.replace(
