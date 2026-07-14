@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" fill="none" role="img" aria-label="Total Service 24H" preserveAspectRatio="xMidYMid meet">
+  <g transform="translate(84 12)">
+    <rect x="0" y="12" width="22" height="18" rx="3.5" fill="#D4DCE6"/>
+    <path d="M5 12V6.5a6 6 0 0112 0V12" stroke="#D4DCE6" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <circle cx="11" cy="21" r="2.2" fill="#14171B"/>
+    <path d="M26 30h10c3.6 0 6.5-2.9 6.5-6.5S39.6 17 36 17h-4" stroke="#6EB5D9" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M36 11v19M33 11h6" stroke="#6EB5D9" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="42.5" cy="6.5" r="4" fill="#6EB5D9"/>
+    <path d="M42.5 10.5v5.5" stroke="#6EB5D9" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M38.5 30h8" stroke="#6EB5D9" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="120" y="64" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.6">
+    <tspan fill="#F2F4F7">TOTAL</tspan><tspan fill="#6EB5D9">SERVICE</tspan><tspan fill="#F2F4F7">24H</tspan>
+  </text>
+</svg>
