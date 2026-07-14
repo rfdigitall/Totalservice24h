@@ -29,7 +29,7 @@ body {
   line-height: 1.55;
   min-height: 100vh;
   min-height: 100svh;
-  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0));
+  padding-bottom: 0;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -39,6 +39,7 @@ body.grazie-page {
   background: transparent;
   overflow-y: auto;
   height: auto;
+  padding-bottom: 0;
 }
 body.modal-open {
   overflow: hidden;
@@ -584,11 +585,27 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   font-weight: 700;
   font-size: .95rem;
   box-shadow: 0 8px 28px rgba(0,0,0,.45);
-  transition: transform .15s ease, box-shadow .15s ease;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease, box-shadow .15s ease;
+}
+.call-fab.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
 }
 .call-fab:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(0,0,0,.5);
+}
+.call-fab.is-visible:hover {
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .call-fab { transition: none; }
 }
 .legal-page { padding-bottom: 0; }
 .legal-page main {

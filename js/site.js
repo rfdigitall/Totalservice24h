@@ -358,6 +358,24 @@
     ul.innerHTML = CFG.footerServices.map(function (s) { return '<li>' + s + '</li>' }).join('')
   }
 
+  function initCallFab() {
+    var fab = $('.call-fab')
+    if (!fab) return
+    if (document.body.classList.contains('home-page')) {
+      fab.hidden = true
+      return
+    }
+    var shown = false
+    function update() {
+      var show = window.scrollY > 8
+      if (show === shown) return
+      shown = show
+      fab.classList.toggle('is-visible', show)
+    }
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+  }
+
   function initAdsTraffic() {
     var params = new URLSearchParams(location.search)
     if (params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google') {
@@ -368,6 +386,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     document.body.classList.remove('modal-open')
     initAdsTraffic()
+    initCallFab()
     initDayNight()
     renderServices()
     renderFooterServices()
