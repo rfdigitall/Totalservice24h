@@ -104,6 +104,8 @@ a { color: inherit; text-decoration: none; }
 
 .section { padding: 2.5rem 0; }
 @media (min-width: 768px) { .section { padding: 3.25rem 0; } }
+.sibling-service { border-top: 1px solid var(--line); }
+.sibling-service__link { max-width: 20rem; margin-top: 1rem; font-size: .95rem; }
 .zone-list {
   display: grid;
   gap: .35rem .75rem;
@@ -214,7 +216,6 @@ h1 em { font-style: normal; color: var(--accent); }
 
 
 .problem-pick { display: grid; gap: .45rem; }
-@media (min-width: 480px) { .problem-pick { grid-template-columns: 1fr 1fr; } }
 .problem-pick__btn {
   width: 100%; text-align: left; padding: .7rem .85rem;
   border-radius: 6px; border: 1px solid var(--line);
@@ -228,6 +229,8 @@ h1 em { font-style: normal; color: var(--accent); }
   box-shadow: inset 0 0 0 1px var(--accent);
 }
 .theme-idraulico .problem-pick__btn.is-active { background: rgba(111,143,134,.18); }
+
+@media (min-width: 480px) { .problem-pick { grid-template-columns: 1fr 1fr; } }
 
 /* Service category chooser — clean, not overloaded */
 .svc-chooser {
@@ -358,6 +361,7 @@ h1 em { font-style: normal; color: var(--accent); }
   font-size: .85rem;
   padding: .7rem 1rem;
 }
+
 
 input, select {
   width: 100%; padding: .65rem .8rem; border-radius: 6px;
@@ -564,7 +568,9 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
 }
 .footer-bar__credit a,
 .footer-bar__links a {
-  color: var(--accent-light);
+  color: #8ed4f0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
   transition: color .15s ease;
 }
 .footer-bar__credit a:hover,
@@ -786,11 +792,22 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   transform: none;
   pointer-events: none;
 }
+img.home-panel__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background-image: none;
+}
 @media (hover: hover) and (pointer: fine) {
   .home-panel__bg { transition: transform .4s ease; }
 }
-.home-panel--fabbro .home-panel__bg { background-image: url('../img/bg-lock.jpg'); }
-.home-panel--idraulico .home-panel__bg { background-image: url('../img/idraulico-bg.jpg'); }
+.home-panel--fabbro .home-panel__bg:not(img) {
+  background-image: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg'));
+}
+.home-panel--idraulico .home-panel__bg:not(img) {
+  background-image: image-set(url('../img/idraulico-bg.webp') type('image/webp'), url('../img/idraulico-bg.jpg') type('image/jpeg'));
+}
 
 .home-panel__shade {
   position: absolute; inset: 0;
@@ -858,8 +875,12 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   position: absolute; inset: 0; background-size: cover; background-position: center;
   filter: brightness(0.42);
 }
-.home-banner--fabbro .home-banner__bg { background-image: url('../img/bg-lock.jpg'); }
-.home-banner--idraulico .home-banner__bg { background-image: url('../img/idraulico-bg.jpg'); }
+.home-banner--fabbro .home-banner__bg {
+  background-image: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg'));
+}
+.home-banner--idraulico .home-banner__bg {
+  background-image: image-set(url('../img/idraulico-bg.webp') type('image/webp'), url('../img/idraulico-bg.jpg') type('image/jpeg'));
+}
 .home-banner__shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(20,23,27,.95) 0%, rgba(20,23,27,.3) 100%); }
 .home-banner__inner { position: relative; z-index: 1; width: 100%; }
 .home-banner h3 { font-size: 1.15rem; margin-bottom: .5rem; }
@@ -997,6 +1018,7 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   color: var(--accent);
 }
 
+
 .home-pillars { display: grid; gap: .75rem; margin-top: 1.5rem; }
 @media (min-width: 640px) { .home-pillars { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 900px) { .home-pillars { grid-template-columns: repeat(4, 1fr); } }
@@ -1065,10 +1087,10 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
 }
 
 /* landing pages — fabbro / idraulico premium */
-.page-landing--fabbro { --site-bg: url('../img/bg-lock.jpg'); }
-.page-landing--idraulico { --site-bg: url('../img/idraulico-bg.jpg'); }
+.page-landing--fabbro { --site-bg: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg')); }
+.page-landing--idraulico { --site-bg: image-set(url('../img/idraulico-bg.webp') type('image/webp'), url('../img/idraulico-bg.jpg') type('image/jpeg')); }
 .legal-page,
-.grazie-page { --site-bg: url('../img/bg-lock.jpg'); }
+.grazie-page { --site-bg: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg')); }
 
 .page-landing::before,
 .legal-page::before,
@@ -1131,8 +1153,12 @@ h2 { font-family: 'Roboto Slab', serif; font-size: 1.2rem; font-weight: 700; }
   filter: brightness(0.42); transform: none;
   pointer-events: none;
 }
-.lp-hero--fabbro .lp-hero__bg { background-image: url('../img/bg-lock.jpg'); }
-.lp-hero--idraulico .lp-hero__bg { background-image: url('../img/idraulico-bg.jpg'); }
+.lp-hero--fabbro .lp-hero__bg {
+  background-image: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg'));
+}
+.lp-hero--idraulico .lp-hero__bg {
+  background-image: image-set(url('../img/idraulico-bg.webp') type('image/webp'), url('../img/idraulico-bg.jpg') type('image/jpeg'));
+}
 .lp-hero__shade {
   position: absolute; inset: 0;
   background: linear-gradient(175deg, rgba(20,23,27,.55) 0%, rgba(20,23,27,.82) 45%, var(--ink) 92%);
