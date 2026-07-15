@@ -72,14 +72,7 @@
     Chiama
   </a>
 
-  <script>
-    var p = new URLSearchParams(location.search);
-    var svc = p.get('svc') || 'fabbro';
-    document.getElementById('back').href = svc === 'idraulico' ? './idraulico.html' : './fabbro.html';
-    if (svc === 'idraulico') {
-      document.getElementById('msg').textContent =
-        'Richiesta idraulico inviata su WhatsApp. Un operatore confermerà i tempi di intervento.';
-    }
-  </script>
+  <script src="./js/tracking-config.js"></script>
+  <script src="./js/site.js" defer></script>
 </body>
 </html>

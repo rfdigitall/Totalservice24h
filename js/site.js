@@ -8,13 +8,16 @@
   var PROMPT_KEY = 'ts_prompt_shown'
   var CALL_TS_KEY = 'ts_call_ts'
   var CALLBACK_DONE_KEY = 'ts_callback_done'
+  var LEAD_CONV_PREFIX = 'ts_lead_conv_'
   var GOOGLE_ADS_SEND_TO = TRC.googleAdsSendTo || ''
+  var GOOGLE_ADS_LEAD_SEND_TO = TRC.googleAdsLeadSendTo || ''
   var GA4 = TRC.ga4Id || 'G-5M16LNBYZP'
   var TIMED_PROMPT_MS = 35000
   var CALLBACK_WINDOW_MS = 10000
   var NIGHT_START = 20
   var NIGHT_END = 7
   var callArmed = false
+  var gtagReadyQueue = []
 
   function $(sel, root) { return (root || document).querySelector(sel) }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)) }
@@ -28,19 +31,68 @@
     localStorage.setItem(COOKIE_KEY, JSON.stringify({ analytics: analytics, ts: Date.now() }))
   }
 
+  /** Consenso solo per GA4 / misurazione comportamento (non blocca conversioni Ads). */
   function hasAnalyticsConsent() {
     var c = getConsent()
     return !!(c && c.analytics)
   }
 
-  function grantConsent() {
+  /** Consent Mode v2: analytics separato da tag Ads; conversioni inviate sempre via gtag. */
+  function syncConsentMode() {
     if (!window.gtag) return
-    window.gtag('consent', 'update', {
-      ad_storage: 'granted',
-      analytics_storage: 'granted',
-      ad_user_data: 'granted',
-      ad_personalization: 'granted'
-    })
+    if (hasAnalyticsConsent()) {
+      window.gtag('consent', 'update', {
+        ad_storage: 'granted',
+        analytics_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+      })
+      return
+    }
+    var c = getConsent()
+    if (c && c.analytics === false) {
+      window.gtag('consent', 'update', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      })
+    }
+  }
+
+  function fireAdsConversion(sendTo) {
+    if (!sendTo || !window.gtag) return
+    window.gtag('event', 'conversion', { send_to: sendTo })
+  }
+
+  function fireGaLead(method) {
+    if (!hasAnalyticsConsent() || !window.gtag) return
+    window.gtag('event', 'generate_lead', { method: method || 'lead' })
+  }
+
+  function trackLeadOnce(src) {
+    var key = LEAD_CONV_PREFIX + (src || 'lead')
+    if (sessionStorage.getItem(key)) return
+    sessionStorage.setItem(key, '1')
+    fireGaLead(src || 'lead')
+    fireAdsConversion(GOOGLE_ADS_LEAD_SEND_TO)
+  }
+
+  function initTrackingHandlers() {
+    window.trackTel = function () {
+      fireGaLead('phone')
+      fireAdsConversion(GOOGLE_ADS_SEND_TO)
+    }
+    window.trackLead = function (src) {
+      trackLeadOnce(src || 'lead')
+    }
+  }
+
+  function flushGtagReadyQueue() {
+    while (gtagReadyQueue.length) {
+      var fn = gtagReadyQueue.shift()
+      try { fn() } catch (e) { /* ignore */ }
+    }
   }
 
   function loadGtagScript(done) {
@@ -49,7 +101,6 @@
       return
     }
     var GOOGLE_ADS = TRC.googleAdsId || ''
-    var GA4 = TRC.ga4Id || 'G-5M16LNBYZP'
     var PHONE = TRC.phoneE164 || '+393927398625'
     var SEND_TO = TRC.googleAdsSendTo || ''
     var s = document.createElement('script')
@@ -76,25 +127,22 @@
     document.head.appendChild(s)
   }
 
-  function setupTracking() {
-    if (window.__tsTrackReady || !hasAnalyticsConsent()) return
+  function ensureGtagReady(done) {
+    if (typeof done === 'function') gtagReadyQueue.push(done)
+    if (window.__tsTrackReady) {
+      flushGtagReadyQueue()
+      return
+    }
     loadGtagScript(function () {
-      if (window.__tsTrackReady) return
-      window.__tsTrackReady = true
-      grantConsent()
-      window.gtag('config', GA4, { anonymize_ip: true, send_page_view: true })
-      window.trackTel = function () {
-        if (!hasAnalyticsConsent()) return
-        window.gtag('event', 'generate_lead', { method: 'phone' })
-        if (GOOGLE_ADS_SEND_TO) {
-          window.gtag('event', 'conversion', { send_to: GOOGLE_ADS_SEND_TO })
+      syncConsentMode()
+      if (!window.__tsTrackReady) {
+        window.__tsTrackReady = true
+        initTrackingHandlers()
+        if (hasAnalyticsConsent()) {
+          window.gtag('config', GA4, { anonymize_ip: true, send_page_view: true })
         }
       }
-      window.trackLead = function (src) {
-        if (!hasAnalyticsConsent()) return
-        window.gtag('event', 'generate_lead', { method: src || 'lead' })
-      }
-      bindTelTracking($$('a[href^="tel:"]'))
+      flushGtagReadyQueue()
     })
   }
 
@@ -104,7 +152,9 @@
       a.__tsBound = true
       a.addEventListener('click', function () {
         markCallAttempt()
-        if (window.trackTel) window.trackTel()
+        ensureGtagReady(function () {
+          if (window.trackTel) window.trackTel()
+        })
       })
     })
   }
@@ -117,9 +167,13 @@
     document.body.classList.toggle('modal-open', open)
   }
 
-  function thankYou() {
+  function thankYou(leadSrc) {
     setTimeout(function () {
-      location.href = './grazie.html?svc=' + encodeURIComponent(CFG.id || 'fabbro')
+      var q = 'svc=' + encodeURIComponent(CFG.id || 'fabbro')
+      if (leadSrc) {
+        q += '&lead=1&src=' + encodeURIComponent(leadSrc)
+      }
+      location.href = './grazie.html?' + q
     }, 400)
   }
 
@@ -183,7 +237,9 @@
       if (!street) { err.textContent = 'Inserisci la via.'; return }
       if (!num) { err.textContent = 'Inserisci il civico.'; return }
       if (!consent) { err.textContent = 'Accetta la privacy.'; return }
-      if (window.trackLead) window.trackLead('whatsapp_form')
+      ensureGtagReady(function () {
+        if (window.trackLead) window.trackLead('whatsapp_form')
+      })
       var problem = CFG.urgencies[problemKey] || problemKey
       var svc = CFG.id === 'idraulico' ? 'Idraulico h24' : 'Fabbro h24'
       var msg = [
@@ -200,7 +256,7 @@
         '— totalservice24h.it'
       ].join('\n')
       window.open(waUrl(msg), '_blank', 'noopener,noreferrer')
-      thankYou()
+      thankYou('whatsapp_form')
     })
   }
 
@@ -262,7 +318,9 @@
         err.textContent = ''
         if (digits.length < 9) { err.textContent = 'Inserisci un numero valido.'; return }
         if (!consent) { err.textContent = 'Accetta la privacy.'; return }
-        if (window.trackLead) window.trackLead('callback_form')
+        ensureGtagReady(function () {
+          if (window.trackLead) window.trackLead('callback_form')
+        })
         var normalized = digits.indexOf('39') === 0 ? '+' + digits : '+39' + digits
         var svc = CFG.id === 'idraulico' ? 'Idraulico h24' : 'Fabbro h24'
         var msg = [
@@ -279,7 +337,7 @@
         sessionStorage.setItem(CALLBACK_DONE_KEY, '1')
         window.open(waUrl(msg), '_blank', 'noopener,noreferrer')
         closeCallbackModal()
-        thankYou()
+        thankYou('callback_form')
       })
     }
 
@@ -342,21 +400,52 @@
 
   function initCookie() {
     var banner = $('#cookie-banner')
-    if (!banner) return
+    if (!banner) {
+      ensureGtagReady(function () {})
+      return
+    }
     if (hasAnalyticsConsent()) {
       banner.classList.add('hidden')
-      setupTracking()
+      ensureGtagReady(function () {})
       return
     }
     $('#cookie-accept').addEventListener('click', function () {
       setConsent(true)
       banner.classList.add('hidden')
-      setupTracking()
+      ensureGtagReady(function () {
+        syncConsentMode()
+        if (window.gtag && hasAnalyticsConsent()) {
+          window.gtag('config', GA4, { anonymize_ip: true, send_page_view: true })
+        }
+      })
     })
     $('#cookie-reject').addEventListener('click', function () {
       setConsent(false)
       banner.classList.add('hidden')
+      ensureGtagReady(function () {
+        syncConsentMode()
+      })
     })
+    ensureGtagReady(function () {})
+  }
+
+  function initGraziePage() {
+    if (!document.body.classList.contains('grazie-page')) return
+    var params = new URLSearchParams(location.search)
+    var svc = params.get('svc') || 'fabbro'
+    var back = document.getElementById('back')
+    var msg = document.getElementById('msg')
+    if (back) back.href = svc === 'idraulico' ? './idraulico.html' : './fabbro.html'
+    if (msg && svc === 'idraulico') {
+      msg.textContent = 'Richiesta idraulico inviata su WhatsApp. Un operatore confermerà i tempi di intervento.'
+    }
+    ensureGtagReady(function () {
+      if (params.get('lead') === '1') {
+        var src = params.get('src') || 'form'
+        if (window.trackLead) window.trackLead(src)
+      }
+    })
+    initTelLinks()
   }
 
   function renderServices() {
@@ -392,6 +481,7 @@
     initCallbackGuard()
     initCallPrompt()
     initCookie()
+    initGraziePage()
     $$('.js-wa-footer').forEach(function (wa) {
       wa.href = waUrl(CFG.whatsappPrefix || 'Richiesta assistenza — Total Service 24H')
     })

@@ -10,7 +10,8 @@ export const WHATSAPP_NUMBER = '393927398625'
 
 export const GOOGLE_ADS = {
   id: 'AW-17710881957',
-  conversion: '',
+  conversion: 'AW-17710881957/RrqfCJ_M840cEKW5mv1B',
+  leadConversion: '',
 }
 export const GA4_ID = 'G-5M16LNBYZP'
 
