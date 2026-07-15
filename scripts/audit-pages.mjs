@@ -48,7 +48,7 @@ for (const file of files) {
   }
 
   if (/<picture><source[^>]+><picture>/.test(html)) add(file, 'double nested picture logo')
-  if (html.includes('tracking-config.js"></script>\n</head>')) add(file, 'tracking in head (should be before site.js at body end)')
+  if (!html.includes('tracking-config.js"></script>\n</head>')) add(file, 'tracking-config.js should load in head')
 
   if (LEGAL.test(file) && html.includes('noindex')) add(file, 'legal page should be indexable')
 }

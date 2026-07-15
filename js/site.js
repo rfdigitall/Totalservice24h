@@ -43,56 +43,54 @@
     })
   }
 
-  function loadGtagScript(done) {
+  function whenGtagReady(done) {
     if (window.__tsGtagLoaded) {
       done()
       return
     }
-    var GOOGLE_ADS = TRC.googleAdsId || ''
-    var GA4 = TRC.ga4Id || 'G-5M16LNBYZP'
-    var PHONE = TRC.phoneE164 || '+393927398625'
-    var SEND_TO = TRC.googleAdsSendTo || ''
-    var s = document.createElement('script')
-    s.async = true
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA4)
-    s.onload = function () {
-      window.__tsGtagLoaded = true
-      window.gtag('js', new Date())
-      window.gtag('config', GA4, { anonymize_ip: true, send_page_view: false })
-      window.gtag('set', {
-        phone_conversion_number: PHONE,
-        phone_conversion_ids: SEND_TO ? [SEND_TO] : [],
+    document.addEventListener('ts:gtag-ready', function () { done() }, { once: true })
+  }
+
+  function firePhoneConversion() {
+    if (!hasAnalyticsConsent() || !window.gtag) return
+    var txId = 'call_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)
+    window.gtag('event', 'generate_lead', { method: 'phone', transport_type: 'beacon' })
+    if (GOOGLE_ADS_SEND_TO) {
+      window.gtag('event', 'conversion', {
+        send_to: GOOGLE_ADS_SEND_TO,
+        value: TRC.conversionValue || 1.0,
+        currency: TRC.conversionCurrency || 'EUR',
+        transaction_id: txId,
+        transport_type: 'beacon',
       })
-      if (GOOGLE_ADS) {
-        window.gtag('config', GOOGLE_ADS, {
-          anonymize_ip: true,
-          conversion_linker: true,
-          allow_enhanced_conversions: true,
-          phone_conversion_number: PHONE,
-        })
-      }
-      done()
     }
-    document.head.appendChild(s)
   }
 
   function setupTracking() {
     if (window.__tsTrackReady || !hasAnalyticsConsent()) return
-    loadGtagScript(function () {
+    whenGtagReady(function () {
       if (window.__tsTrackReady) return
       window.__tsTrackReady = true
       grantConsent()
+      var GOOGLE_ADS = TRC.googleAdsId || ''
+      var PHONE = TRC.phoneE164 || '+393927398625'
       window.gtag('config', GA4, { anonymize_ip: true, send_page_view: true })
-      window.trackTel = function () {
-        if (!hasAnalyticsConsent()) return
-        window.gtag('event', 'generate_lead', { method: 'phone' })
-        if (GOOGLE_ADS_SEND_TO) {
-          window.gtag('event', 'conversion', { send_to: GOOGLE_ADS_SEND_TO })
-        }
+      if (GOOGLE_ADS) {
+        window.gtag('config', GOOGLE_ADS, {
+          allow_enhanced_conversions: true,
+          conversion_linker: true,
+          phone_conversion_number: PHONE,
+          send_page_view: true,
+        })
       }
+      window.gtag('set', {
+        phone_conversion_number: PHONE,
+        phone_conversion_ids: GOOGLE_ADS_SEND_TO ? [GOOGLE_ADS_SEND_TO] : [],
+      })
+      window.trackTel = firePhoneConversion
       window.trackLead = function (src) {
         if (!hasAnalyticsConsent()) return
-        window.gtag('event', 'generate_lead', { method: src || 'lead' })
+        window.gtag('event', 'generate_lead', { method: src || 'lead', transport_type: 'beacon' })
       }
       bindTelTracking($$('a[href^="tel:"]'))
     })
@@ -105,7 +103,7 @@
       a.addEventListener('click', function () {
         markCallAttempt()
         if (window.trackTel) window.trackTel()
-      })
+      }, true)
     })
   }
 

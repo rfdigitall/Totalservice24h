@@ -16,10 +16,9 @@ const fontsBlock = `  <link rel="preconnect" href="https://fonts.googleapis.com"
 const oldFonts =
   /  <link rel="preconnect" href="https:\/\/fonts\.googleapis\.com" \/>\r?\n  <link rel="preconnect" href="https:\/\/fonts\.gstatic\.com" crossorigin \/>\r?\n  <link href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+" rel="stylesheet" \/>/g
 
-const oldTrackingHead = '  <script src="./js/tracking-config.js" defer></script>\r\n</head>'
-const newTrackingHead = '</head>'
-const oldSiteJs = '  <script src="./js/site.js" defer></script>'
-const newSiteJs = '  <script src="./js/tracking-config.js"></script>\n  <script src="./js/site.js" defer></script>'
+const trackingHead = '  <script src="./js/tracking-config.js"></script>\n</head>'
+const bodyTracking = '  <script src="./js/tracking-config.js"></script>\n  <script src="./js/site.js" defer></script>'
+const bodySiteOnly = '  <script src="./js/site.js" defer></script>'
 
 const blockingCss =
   /  <link rel="preload" href="\.\/css\/site\.css" as="style" \/>\r?\n  <link rel="stylesheet" href="\.\/css\/site\.css" \/>/
@@ -63,23 +62,25 @@ for (const file of files) {
     html = html.replace(oldFonts, fontsBlock)
     changed = true
   }
-  if (html.includes(oldTrackingHead)) {
-    html = html.replace(oldTrackingHead, newTrackingHead)
-    changed = true
-  } else if (html.includes('  <script src="./js/tracking-config.js"></script>\n</head>')) {
-    html = html.replace('  <script src="./js/tracking-config.js"></script>\n</head>', '</head>')
+  if (!html.includes('tracking-config.js') && html.includes('</head>')) {
+    html = html.replace('</head>', trackingHead)
     changed = true
   }
-  if (html.includes(oldSiteJs) && !html.includes('tracking-config.js"></script>\n  <script src="./js/site.js"')) {
-    html = html.replace(oldSiteJs, newSiteJs)
+  if (html.includes(bodyTracking)) {
+    html = html.replace(bodyTracking, bodySiteOnly)
     changed = true
   }
-
-  const beforeDedupe = html
-  html = html.replace(/(<script src="\.\/js\/tracking-config\.js"><\/script>\s*){2,}/g, '<script src="./js/tracking-config.js"></script>\n  ')
-  if (html !== beforeDedupe) changed = true
-  if (!html.includes('tracking-config.js') && html.includes('site.js')) {
-    html = html.replace('  <script src="./js/site.js" defer></script>', newSiteJs)
+  if (html.includes('tracking-config.js"></script>\n</head>') === false && html.includes('tracking-config.js')) {
+    html = html.replace(/  <script src="\.\/js\/tracking-config\.js"><\/script>\s*/g, '')
+    if (!html.includes('tracking-config.js"></script>\n</head>')) {
+      html = html.replace('</head>', trackingHead)
+    }
+    changed = true
+  }
+  if (html.includes(bodySiteOnly) === false && html.includes('site.js')) {
+    // ensure site.js stays at body end
+  } else if (!html.includes('site.js') && html.includes('</body>')) {
+    html = html.replace('</body>', '  <script src="./js/site.js" defer></script>\n</body>')
     changed = true
   }
   if (file !== 'index.html') {
