@@ -38,7 +38,7 @@
         <tr>
           <td><code>ts_cookie_consent_v1</code> (localStorage)</td>
           <td>Tecnico / preferenza</td>
-          <td>Memorizza la scelta sui cookie analitici</td>
+          <td>Memorizza la scelta su cookie analitici e marketing/conversioni</td>
           <td>12 mesi</td>
         </tr>
         <tr>
@@ -57,7 +57,7 @@
     </table>
 
     <h2>4. Come gestire il consenso</h2>
-    <p>Al primo accesso puoi <strong>Accettare</strong> o rifiutare i cookie analitici selezionando <strong>Solo necessari</strong>. Puoi modificare la scelta cancellando i dati del sito dal browser.</p>
+    <p>Al primo accesso puoi <strong>Accettare</strong> (analitici + marketing/conversioni Google) oppure <strong>Solo necessari</strong> (solo cookie tecnici). Con “Solo necessari” Google riceve al massimo segnali cookieless modellati (Consent Mode), senza cookie identificabili. Puoi modificare la scelta cancellando i dati del sito dal browser.</p>
 
     <h2>5. Disattivazione dal browser</h2>
     <p>Puoi bloccare o eliminare i cookie dalle impostazioni del browser. La disattivazione dei cookie tecnici può limitare alcune funzioni.</p>
@@ -139,16 +139,16 @@
     Chiama
   </a>
 
-  <div id="cookie-banner" class="cookie" role="dialog" aria-label="Cookie">
+    <div id="cookie-banner" class="cookie" role="dialog" aria-label="Cookie">
     <strong style="font-size:.85rem">Cookie</strong>
-    <p>Usiamo cookie tecnici e, solo con il tuo consenso, analitici (Google). <a href="./cookie.html">Dettagli</a></p>
+    <p>Usiamo cookie tecnici necessari al sito. Con il tuo consenso attiviamo anche cookie <strong>analitici</strong> (Google Analytics) e di <strong>marketing/misurazione conversioni</strong> (Google Ads). <a href="./cookie.html">Cookie Policy</a> · <a href="./privacy.html">Privacy</a></p>
     <div class="cookie__btns">
-      <button type="button" id="cookie-accept" class="btn-mech" style="margin:0">Accetta</button>
-      <button type="button" id="cookie-reject" class="btn-mech" style="margin:0;background:transparent;color:var(--muted);box-shadow:none;border:1px solid var(--line)">Solo necessari</button>
+      <button type="button" id="cookie-accept" class="btn-mech cookie__btn--accept" style="margin:0;flex:1;width:100%;min-height:2.75rem;box-shadow:none;font-weight:600;border:2px solid var(--accent)">Accetta</button>
+      <button type="button" id="cookie-reject" class="btn-mech cookie__btn--reject" style="margin:0;flex:1;width:100%;min-height:2.75rem;box-shadow:none;font-weight:600;background:var(--panel);color:var(--text-body);border:2px solid var(--text-body)">Solo necessari</button>
     </div>
   </div>
 
-  <script src="./js/tracking-config.js"></script>
+<script src="./js/tracking-config.js"></script>
   <script src="./js/site.js" defer></script>
 </body>
 </html>

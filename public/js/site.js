@@ -18,6 +18,8 @@
   var NIGHT_END = 7
   var callArmed = false
   var gtagReadyQueue = []
+  var pendingUntilConsent = []
+  var gtagLoadStarted = false
 
   function $(sel, root) { return (root || document).querySelector(sel) }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)) }
@@ -31,7 +33,12 @@
     localStorage.setItem(COOKIE_KEY, JSON.stringify({ analytics: analytics, ts: Date.now() }))
   }
 
-  /** Consenso solo per GA4 / misurazione comportamento (non blocca conversioni Ads). */
+  /** true solo dopo Accetta / Solo necessari (non alla prima visita). */
+  function hasConsentDecision() {
+    return getConsent() !== null
+  }
+
+  /** Consenso analitici+marketing (banner Accetta). */
   function hasAnalyticsConsent() {
     var c = getConsent()
     return !!(c && c.analytics)
@@ -127,12 +134,34 @@
     document.head.appendChild(s)
   }
 
+  function flushPendingUntilConsent() {
+    while (pendingUntilConsent.length) {
+      var fn = pendingUntilConsent.shift()
+      try { ensureGtagReady(fn) } catch (e) { /* ignore */ }
+    }
+  }
+
+  /**
+   * Carica gtag.js solo DOPO una scelta cookie (Accetta / Solo necessari)
+   * o se esiste già una decisione in localStorage. Prima della scelta:
+   * nessuna richiesta a googletagmanager.com.
+   */
   function ensureGtagReady(done) {
+    if (!hasConsentDecision()) {
+      if (typeof done === 'function') pendingUntilConsent.push(done)
+      return
+    }
+
     if (typeof done === 'function') gtagReadyQueue.push(done)
+
     if (window.__tsTrackReady) {
       flushGtagReadyQueue()
       return
     }
+
+    if (gtagLoadStarted) return
+    gtagLoadStarted = true
+
     loadGtagScript(function () {
       syncConsentMode()
       if (!window.__tsTrackReady) {
@@ -146,13 +175,18 @@
     })
   }
 
+  /** Click tel/lead prima del banner: accoda, esegue dopo la scelta. */
+  function afterConsentThen(done) {
+    ensureGtagReady(done)
+  }
+
   function bindTelTracking(links) {
     links.forEach(function (a) {
       if (a.__tsBound) return
       a.__tsBound = true
       a.addEventListener('click', function () {
         markCallAttempt()
-        ensureGtagReady(function () {
+        afterConsentThen(function () {
           if (window.trackTel) window.trackTel()
         })
       })
@@ -237,7 +271,7 @@
       if (!street) { err.textContent = 'Inserisci la via.'; return }
       if (!num) { err.textContent = 'Inserisci il civico.'; return }
       if (!consent) { err.textContent = 'Accetta la privacy.'; return }
-      ensureGtagReady(function () {
+      afterConsentThen(function () {
         if (window.trackLead) window.trackLead('whatsapp_form')
       })
       var problem = CFG.urgencies[problemKey] || problemKey
@@ -318,7 +352,7 @@
         err.textContent = ''
         if (digits.length < 9) { err.textContent = 'Inserisci un numero valido.'; return }
         if (!consent) { err.textContent = 'Accetta la privacy.'; return }
-        ensureGtagReady(function () {
+        afterConsentThen(function () {
           if (window.trackLead) window.trackLead('callback_form')
         })
         var normalized = digits.indexOf('39') === 0 ? '+' + digits : '+39' + digits
@@ -398,35 +432,37 @@
     })
   }
 
+  function startTrackingAfterChoice() {
+    ensureGtagReady(function () {
+      syncConsentMode()
+    })
+    flushPendingUntilConsent()
+  }
+
   function initCookie() {
     var banner = $('#cookie-banner')
+
+    if (hasConsentDecision()) {
+      if (banner) banner.classList.add('hidden')
+      startTrackingAfterChoice()
+      return
+    }
+
     if (!banner) {
-      ensureGtagReady(function () {})
+      /* Nessun banner e nessuna scelta: non caricare gtag (es. pagina senza banner). */
       return
     }
-    if (hasAnalyticsConsent()) {
-      banner.classList.add('hidden')
-      ensureGtagReady(function () {})
-      return
-    }
+
     $('#cookie-accept').addEventListener('click', function () {
       setConsent(true)
       banner.classList.add('hidden')
-      ensureGtagReady(function () {
-        syncConsentMode()
-        if (window.gtag && hasAnalyticsConsent()) {
-          window.gtag('config', GA4, { anonymize_ip: true, send_page_view: true })
-        }
-      })
+      startTrackingAfterChoice()
     })
     $('#cookie-reject').addEventListener('click', function () {
       setConsent(false)
       banner.classList.add('hidden')
-      ensureGtagReady(function () {
-        syncConsentMode()
-      })
+      startTrackingAfterChoice()
     })
-    ensureGtagReady(function () {})
   }
 
   function initGraziePage() {
@@ -439,7 +475,7 @@
     if (msg && svc === 'idraulico') {
       msg.textContent = 'Richiesta idraulico inviata su WhatsApp. Un operatore confermerà i tempi di intervento.'
     }
-    ensureGtagReady(function () {
+    afterConsentThen(function () {
       if (params.get('lead') === '1') {
         var src = params.get('src') || 'form'
         if (window.trackLead) window.trackLead(src)
