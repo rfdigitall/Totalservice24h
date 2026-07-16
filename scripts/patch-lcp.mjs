@@ -15,8 +15,12 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const FONT_URL =
   'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Roboto+Slab:wght@700&display=swap'
 
+const ROBOTO_SLAB_700_LATIN =
+  'https://fonts.gstatic.com/s/robotoslab/v36/BngbUXZYTXPIvIBgJJSb6s3BzlRRfKOFbvjoa4Omb2RjV9Ku1Q.woff2'
+
 const fontsBlock = `  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="${ROBOTO_SLAB_700_LATIN}" as="font" type="font/woff2" crossorigin />
   <link rel="preload" as="style" href="${FONT_URL}" />
   <link href="${FONT_URL}" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="${FONT_URL}" rel="stylesheet" /></noscript>`
