@@ -34,6 +34,7 @@
   }
 
   function grantConsent() {
+    if (typeof window.__tsLoadGtag === 'function') window.__tsLoadGtag()
     if (!window.gtag) return
     window.gtag('consent', 'update', {
       ad_storage: 'granted',
