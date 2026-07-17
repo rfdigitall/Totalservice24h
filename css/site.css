@@ -49,7 +49,7 @@ body.modal-open {
   body:not(.home-page--minimal) { padding-bottom: 0; }
 }
 body.home-page--minimal {
-  padding-bottom: 0;
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0));
   overflow-x: hidden;
   overflow-y: auto;
   height: auto;
@@ -230,6 +230,99 @@ h1 em { font-style: normal; color: var(--accent); }
   box-shadow: inset 0 0 0 1px var(--accent);
 }
 .theme-idraulico .problem-pick__btn.is-active { background: rgba(111,143,134,.18); }
+
+/* Problem tiles — “Il tuo problema è qui?” */
+.problem-grid {
+  display: grid;
+  gap: .75rem;
+  margin-top: 1.5rem;
+}
+@media (min-width: 560px) {
+  .problem-grid { grid-template-columns: 1fr 1fr; gap: .85rem; }
+}
+.problem-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  padding: 1.15rem 1.15rem 1.05rem;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.035) 0%, transparent 48%),
+    var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .18s, transform .18s, background .18s;
+}
+.problem-tile::after {
+  content: '';
+  position: absolute;
+  inset: auto -20% -40% auto;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,144,164,.16), transparent 70%);
+  pointer-events: none;
+}
+.theme-idraulico .problem-tile::after,
+.problem-grid--idraulico .problem-tile::after {
+  background: radial-gradient(circle, rgba(111,143,134,.16), transparent 70%);
+}
+.problem-tile:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  background:
+    linear-gradient(160deg, rgba(74,144,164,.08) 0%, transparent 50%),
+    var(--ink);
+}
+.theme-idraulico .problem-tile:hover,
+.problem-grid--idraulico .problem-tile:hover {
+  background:
+    linear-gradient(160deg, rgba(111,143,134,.1) 0%, transparent 50%),
+    var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .problem-tile:hover { transform: none; }
+}
+.problem-tile__icon {
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: rgba(74,144,164,.12);
+  border: 1px solid rgba(74,144,164,.28);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.theme-idraulico .problem-tile__icon,
+.problem-grid--idraulico .problem-tile__icon {
+  background: rgba(111,143,134,.14);
+  border-color: rgba(157,187,177,.35);
+}
+.problem-tile__icon svg { width: 1.15rem; height: 1.15rem; }
+.problem-tile strong {
+  display: block;
+  font-size: .95rem;
+  font-weight: 650;
+  letter-spacing: -.01em;
+  line-height: 1.25;
+}
+.problem-tile p {
+  margin: 0;
+  font-size: .78rem;
+  color: var(--muted);
+  line-height: 1.45;
+  max-width: 28ch;
+}
+.problem-tile__cta {
+  margin-top: .25rem;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
 
 input, select {
   width: 100%; padding: .65rem .8rem; border-radius: 6px;
@@ -687,6 +780,15 @@ img.home-panel__bg {
   margin-top: .65rem; font-size: 1rem; font-weight: 500;
   color: #F5F0E8; line-height: 1.55;
   text-shadow: 0 1px 8px rgba(0,0,0,.5);
+}
+.home-panel__phone {
+  display: block;
+  margin-top: .75rem;
+  font-size: clamp(1.15rem, 4vw, 1.4rem);
+  font-weight: 700;
+  color: var(--accent-light);
+  text-shadow: 0 2px 12px rgba(0,0,0,.45);
+  letter-spacing: .02em;
 }
 .home-panel .btn-mech { margin-top: 1.25rem; max-width: none; font-size: .95rem; }
 
