@@ -1,13 +1,19 @@
 /**
  * Google tag (gtag.js) + Consent Mode — Total Service 24H
  * Consent default is sync; gtag.js network load is deferred until after first paint
- * so it does not compete with LCP (hero image / fonts).
+ * so it does not compete with LCP (hero image / fonts). Ads traffic loads gtag
+ * immediately so Call Forwarding can replace the number before the user dials.
  */
 window.TRACKING_CONFIG = {
   googleAdsId: 'AW-17710881957',
   ga4Id: 'G-5M16LNBYZP',
   phoneE164: '+393927398625',
+  /** Display format must match the number shown on the site (Google WCM). */
+  phoneDisplay: '392 739 8625',
+  /** Click-to-call conversion (existing). */
   googleAdsSendTo: 'AW-17710881957/RrqfCJ_M840cEKW5mv1B',
+  /** Calls from website / Call Forwarding conversion. */
+  googleAdsCallForwardSendTo: 'AW-17710881957/-QrICMGWztIcEKW5mv1B',
   conversionValue: 1.0,
   conversionCurrency: 'EUR',
 }
@@ -28,7 +34,17 @@ window.gtag('consent', 'default', {
   var adsId = cfg.googleAdsId
   var ga4Id = cfg.ga4Id
   var sendTo = cfg.googleAdsSendTo
+  var callForward = cfg.googleAdsCallForwardSendTo
+  var phoneDisplay = cfg.phoneDisplay || '392 739 8625'
   var started = false
+
+  function applyWcmNumber(formatted, mobile) {
+    if (typeof window.__tsApplyWcmNumber === 'function') {
+      window.__tsApplyWcmNumber(formatted, mobile)
+    } else {
+      window.__tsPendingWcm = { formatted: formatted, mobile: mobile }
+    }
+  }
 
   function bootConfigs() {
     window.gtag('js', new Date())
@@ -41,9 +57,16 @@ window.gtag('consent', 'default', {
       anonymize_ip: true,
       send_page_view: false,
     })
+    // Event snippet — Call Forwarding ("Chiamata" website calls)
+    if (callForward) {
+      window.gtag('config', callForward, {
+        phone_conversion_number: phoneDisplay,
+        phone_conversion_callback: applyWcmNumber,
+      })
+    }
     if (sendTo) {
       window.gtag('set', {
-        phone_conversion_number: cfg.phoneE164,
+        phone_conversion_number: phoneDisplay,
         phone_conversion_ids: [sendTo],
       })
     }
@@ -66,7 +89,21 @@ window.gtag('consent', 'default', {
   // Expose so site.js can load gtag immediately on cookie accept
   window.__tsLoadGtag = injectGtag
 
+  function isAdsTraffic() {
+    try {
+      var params = new URLSearchParams(location.search)
+      return !!(params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google')
+    } catch (e) {
+      return false
+    }
+  }
+
   function schedule() {
+    // Call Forwarding needs the tag early for paid clicks
+    if (isAdsTraffic()) {
+      injectGtag()
+      return
+    }
     if (typeof requestIdleCallback === 'function') {
       requestIdleCallback(function () { injectGtag() }, { timeout: 2800 })
     } else {
@@ -78,9 +115,9 @@ window.gtag('consent', 'default', {
     setTimeout(injectGtag, 3500)
   }
 
-  // Prefer after first paint when available
+  // Prefer after first paint when available (organic traffic only path)
   try {
-    if (typeof PerformanceObserver === 'function') {
+    if (typeof PerformanceObserver === 'function' && !isAdsTraffic()) {
       var done = false
       var po = new PerformanceObserver(function (list) {
         var entries = list.getEntries()
