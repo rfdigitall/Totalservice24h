@@ -9,7 +9,6 @@
   var CALL_TS_KEY = 'ts_call_ts'
   var CALLBACK_DONE_KEY = 'ts_callback_done'
   var GOOGLE_ADS_SEND_TO = TRC.googleAdsSendTo || ''
-  var GOOGLE_ADS_CALL_FORWARD = TRC.googleAdsCallForwardSendTo || ''
   var PHONE_DISPLAY = TRC.phoneDisplay || '392 739 8625'
   var GA4 = TRC.ga4Id || 'G-5M16LNBYZP'
   var TIMED_PROMPT_MS = 35000
@@ -17,38 +16,9 @@
   var NIGHT_START = 20
   var NIGHT_END = 7
   var callArmed = false
-  var PHONE_TEXT_RE = /392[\s.\-]?739[\s.\-]?8625/g
-  var OUR_TEL_RE = /(?:\+?39)?3927398625/
 
   function $(sel, root) { return (root || document).querySelector(sel) }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)) }
-
-  /** Google Call Forwarding — replace visible + tel: href with Google forwarding number. */
-  window.__tsApplyWcmNumber = function (formatted, mobile) {
-    if (!formatted || !mobile) return
-    var telHref = String(mobile).indexOf('tel:') === 0 ? String(mobile) : 'tel:' + String(mobile).replace(/\s+/g, '')
-    $$('a[href^="tel:"]').forEach(function (a) {
-      var href = a.getAttribute('href') || ''
-      if (!OUR_TEL_RE.test(href.replace(/\s+/g, ''))) return
-      a.setAttribute('href', telHref)
-      var aria = a.getAttribute('aria-label')
-      if (aria && PHONE_TEXT_RE.test(aria)) {
-        a.setAttribute('aria-label', aria.replace(PHONE_TEXT_RE, formatted))
-      }
-      var walker = document.createTreeWalker(a, NodeFilter.SHOW_TEXT)
-      var nodes = []
-      while (walker.nextNode()) nodes.push(walker.currentNode)
-      nodes.forEach(function (n) {
-        if (PHONE_TEXT_RE.test(n.nodeValue)) {
-          n.nodeValue = n.nodeValue.replace(PHONE_TEXT_RE, formatted)
-        }
-      })
-    })
-  }
-  if (window.__tsPendingWcm) {
-    window.__tsApplyWcmNumber(window.__tsPendingWcm.formatted, window.__tsPendingWcm.mobile)
-    window.__tsPendingWcm = null
-  }
 
   function waUrl(text) { return 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(text) }
 
@@ -112,13 +82,6 @@
           conversion_linker: true,
           phone_conversion_number: PHONE_DISPLAY,
           send_page_view: true,
-        })
-      }
-      // Re-assert Call Forwarding after consent (number replacement for Ads traffic)
-      if (GOOGLE_ADS_CALL_FORWARD) {
-        window.gtag('config', GOOGLE_ADS_CALL_FORWARD, {
-          phone_conversion_number: PHONE_DISPLAY,
-          phone_conversion_callback: window.__tsApplyWcmNumber,
         })
       }
       window.gtag('set', {
