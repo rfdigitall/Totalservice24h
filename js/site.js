@@ -64,6 +64,19 @@
     return !!(c && c.analytics)
   }
 
+  function isAdsTraffic() {
+    try {
+      var params = new URLSearchParams(location.search)
+      return !!(params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google')
+    } catch (e) {
+      return false
+    }
+  }
+
+  function canTrackMarketing() {
+    return hasAnalyticsConsent() || (!!TRC.forceMarketingConsentForAds && isAdsTraffic())
+  }
+
   function grantConsent() {
     if (typeof window.__tsLoadGtag === 'function') window.__tsLoadGtag()
     if (!window.gtag) return
@@ -84,7 +97,7 @@
   }
 
   function firePhoneConversion() {
-    if (!hasAnalyticsConsent() || !window.gtag) return
+    if (!canTrackMarketing() || !window.gtag) return
     var txId = 'call_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)
     window.gtag('event', 'generate_lead', { method: 'phone', transport_type: 'beacon' })
     if (GOOGLE_ADS_SEND_TO) {
@@ -99,7 +112,7 @@
   }
 
   function setupTracking() {
-    if (window.__tsTrackReady || !hasAnalyticsConsent()) return
+    if (window.__tsTrackReady || !canTrackMarketing()) return
     whenGtagReady(function () {
       if (window.__tsTrackReady) return
       window.__tsTrackReady = true
@@ -127,7 +140,7 @@
       })
       window.trackTel = firePhoneConversion
       window.trackLead = function (src) {
-        if (!hasAnalyticsConsent()) return
+        if (!canTrackMarketing()) return
         window.gtag('event', 'generate_lead', { method: src || 'lead', transport_type: 'beacon' })
       }
       bindTelTracking($$('a[href^="tel:"]'))
@@ -379,7 +392,8 @@
   function initCookie() {
     var banner = $('#cookie-banner')
     if (!banner) return
-    if (hasAnalyticsConsent()) {
+    if (hasAnalyticsConsent() || isAdsTraffic()) {
+      if (isAdsTraffic() && !hasAnalyticsConsent()) setConsent(true)
       banner.classList.add('hidden')
       setupTracking()
       return
@@ -410,10 +424,7 @@
   }
 
   function initAdsTraffic() {
-    var params = new URLSearchParams(location.search)
-    if (params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google') {
-      document.body.classList.add('ads-traffic')
-    }
+    if (isAdsTraffic()) document.body.classList.add('ads-traffic')
   }
 
   document.addEventListener('DOMContentLoaded', function () {
