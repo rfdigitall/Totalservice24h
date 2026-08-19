@@ -153,7 +153,8 @@
       a.__tsBound = true
       a.addEventListener('click', function () {
         markCallAttempt()
-        if (window.trackTel) window.trackTel()
+        if (!canTrackMarketing()) return
+        whenGtagReady(function () { firePhoneConversion() })
       }, true)
     })
   }
