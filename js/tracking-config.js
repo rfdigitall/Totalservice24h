@@ -39,6 +39,68 @@ window.gtag('consent', 'default', {
   var callForward = cfg.googleAdsCallForwardSendTo
   var phoneDisplay = cfg.phoneDisplay || '392 739 8625'
   var started = false
+  var FALLBACK_MS = 4500
+
+  function isAdsTraffic() {
+    try {
+      var params = new URLSearchParams(location.search)
+      return !!(
+        params.get('gclid') ||
+        params.get('gbraid') ||
+        params.get('wbraid') ||
+        params.get('utm_source') === 'google' ||
+        params.get('google_phone_conversion_debug') === 'true'
+      )
+    } catch (e) {
+      return false
+    }
+  }
+
+  /** Hide visible phone digits on Ads until Google forwarding number is ready. */
+  window.__tsDniReveal = function (reason) {
+    if (window.__tsDniRevealed) return
+    window.__tsDniRevealed = true
+    try {
+      document.documentElement.classList.remove('ts-dni-await')
+      document.documentElement.classList.add('ts-dni-ready')
+    } catch (e) {}
+    try {
+      if (console && console.info) console.info('[TS DNI] reveal', reason || '')
+    } catch (e2) {}
+  }
+
+  function armAntiFlicker() {
+    if (!isAdsTraffic()) return
+    if (document.getElementById('ts-dni-af-style')) return
+    var css =
+      'html.ts-dni-await:not(.ts-dni-ready) a.number-panel__phone,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.btn-tel-small,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.call-fab,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.footer__phone-link,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.btn-mech[href^="tel:"]{' +
+      'font-size:0!important;letter-spacing:0!important;color:transparent!important;position:relative;}' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.number-panel__phone::after,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.btn-tel-small::after,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.call-fab::after,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.footer__phone-link::after,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.btn-mech[href^="tel:"]::after{' +
+      'content:"Chiama ora";font-size:clamp(1rem,4vw,1.35rem);font-weight:700;letter-spacing:0.02em;' +
+      'color:#8BC4D6;white-space:nowrap;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.btn-mech[href^="tel:"]::after,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.btn-tel-small::after,' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.call-fab::after{color:#14171B;}' +
+      'html.ts-dni-await:not(.ts-dni-ready) a.call-fab svg{opacity:0;}'
+    var el = document.createElement('style')
+    el.id = 'ts-dni-af-style'
+    el.textContent = css
+    document.head.appendChild(el)
+    document.documentElement.classList.add('ts-dni-await')
+    setTimeout(function () {
+      if (!window.__tsDniRevealed) window.__tsDniReveal('timeout-' + FALLBACK_MS + 'ms')
+    }, FALLBACK_MS)
+  }
+
+  armAntiFlicker()
 
   function applyWcmNumber(formatted, mobile) {
     if (typeof window.__tsApplyWcmNumber === 'function') {
@@ -46,6 +108,7 @@ window.gtag('consent', 'default', {
     } else {
       window.__tsPendingWcm = { formatted: formatted, mobile: mobile }
     }
+    if (window.__tsDniReveal) window.__tsDniReveal('wcm-callback')
   }
 
   function grantAdsConsent() {
@@ -101,15 +164,6 @@ window.gtag('consent', 'default', {
 
   // Expose so site.js can load gtag immediately on cookie accept
   window.__tsLoadGtag = injectGtag
-
-  function isAdsTraffic() {
-    try {
-      var params = new URLSearchParams(location.search)
-      return !!(params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google')
-    } catch (e) {
-      return false
-    }
-  }
 
   function schedule() {
     // Call Forwarding needs the tag early for paid clicks

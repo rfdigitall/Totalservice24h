@@ -31,6 +31,7 @@
       var href = a.getAttribute('href') || ''
       if (!OUR_TEL_RE.test(href.replace(/\s+/g, ''))) return
       a.setAttribute('href', telHref)
+      a.setAttribute('data-ts-phone', '1')
       var aria = a.getAttribute('aria-label')
       if (aria && PHONE_TEXT_RE.test(aria)) {
         a.setAttribute('aria-label', aria.replace(PHONE_TEXT_RE, formatted))
@@ -44,6 +45,7 @@
         }
       })
     })
+    if (typeof window.__tsDniReveal === 'function') window.__tsDniReveal('site-wcm')
   }
   if (window.__tsPendingWcm) {
     window.__tsApplyWcmNumber(window.__tsPendingWcm.formatted, window.__tsPendingWcm.mobile)
@@ -62,6 +64,19 @@
   function hasAnalyticsConsent() {
     var c = getConsent()
     return !!(c && c.analytics)
+  }
+
+  function isAdsTraffic() {
+    try {
+      var params = new URLSearchParams(location.search)
+      return !!(params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google')
+    } catch (e) {
+      return false
+    }
+  }
+
+  function canTrackMarketing() {
+    return hasAnalyticsConsent() || (!!TRC.forceMarketingConsentForAds && isAdsTraffic())
   }
 
   function grantConsent() {
@@ -84,7 +99,7 @@
   }
 
   function firePhoneConversion() {
-    if (!hasAnalyticsConsent() || !window.gtag) return
+    if (!canTrackMarketing() || !window.gtag) return
     var txId = 'call_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)
     window.gtag('event', 'generate_lead', { method: 'phone', transport_type: 'beacon' })
     if (GOOGLE_ADS_SEND_TO) {
@@ -99,7 +114,7 @@
   }
 
   function setupTracking() {
-    if (window.__tsTrackReady || !hasAnalyticsConsent()) return
+    if (window.__tsTrackReady || !canTrackMarketing()) return
     whenGtagReady(function () {
       if (window.__tsTrackReady) return
       window.__tsTrackReady = true
@@ -127,7 +142,7 @@
       })
       window.trackTel = firePhoneConversion
       window.trackLead = function (src) {
-        if (!hasAnalyticsConsent()) return
+        if (!canTrackMarketing()) return
         window.gtag('event', 'generate_lead', { method: src || 'lead', transport_type: 'beacon' })
       }
       bindTelTracking($$('a[href^="tel:"]'))
@@ -140,7 +155,8 @@
       a.__tsBound = true
       a.addEventListener('click', function () {
         markCallAttempt()
-        if (window.trackTel) window.trackTel()
+        if (!canTrackMarketing()) return
+        whenGtagReady(function () { firePhoneConversion() })
       }, true)
     })
   }
@@ -379,7 +395,8 @@
   function initCookie() {
     var banner = $('#cookie-banner')
     if (!banner) return
-    if (hasAnalyticsConsent()) {
+    if (hasAnalyticsConsent() || isAdsTraffic()) {
+      if (isAdsTraffic() && !hasAnalyticsConsent()) setConsent(true)
       banner.classList.add('hidden')
       setupTracking()
       return
@@ -410,10 +427,7 @@
   }
 
   function initAdsTraffic() {
-    var params = new URLSearchParams(location.search)
-    if (params.get('gclid') || params.get('gbraid') || params.get('wbraid') || params.get('utm_source') === 'google') {
-      document.body.classList.add('ads-traffic')
-    }
+    if (isAdsTraffic()) document.body.classList.add('ads-traffic')
   }
 
   document.addEventListener('DOMContentLoaded', function () {

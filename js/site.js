@@ -31,6 +31,7 @@
       var href = a.getAttribute('href') || ''
       if (!OUR_TEL_RE.test(href.replace(/\s+/g, ''))) return
       a.setAttribute('href', telHref)
+      a.setAttribute('data-ts-phone', '1')
       var aria = a.getAttribute('aria-label')
       if (aria && PHONE_TEXT_RE.test(aria)) {
         a.setAttribute('aria-label', aria.replace(PHONE_TEXT_RE, formatted))
@@ -44,6 +45,7 @@
         }
       })
     })
+    if (typeof window.__tsDniReveal === 'function') window.__tsDniReveal('site-wcm')
   }
   if (window.__tsPendingWcm) {
     window.__tsApplyWcmNumber(window.__tsPendingWcm.formatted, window.__tsPendingWcm.mobile)
