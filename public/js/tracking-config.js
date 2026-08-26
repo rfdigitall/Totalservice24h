@@ -1,8 +1,12 @@
 /**
  * Google tag (gtag.js) + Consent Mode — Total Service 24H
  * Consent default is sync; gtag.js network load is deferred until after first paint
- * so it does not compete with LCP (hero image / fonts). Ads traffic loads gtag
- * immediately so Call Forwarding can replace the number before the user dials.
+ * so it does not compete with LCP (hero image / fonts).
+ *
+ * 26/08/2026: DNI / Call Forwarding DISATTIVATO (stesso fix GF/SOS).
+ * call_view aveva MISSED + account call reporting puntava a conversionActions/179 morto.
+ * Ora tel: va DIRETTO a 392 739 8625. Click tel (googleAdsSendTo) resta attivo.
+ * Per riattivare DNI: rimetti googleAdsCallForwardSendTo sotto.
  */
 window.TRACKING_CONFIG = {
   googleAdsId: 'AW-17710881957',
@@ -12,8 +16,8 @@ window.TRACKING_CONFIG = {
   phoneDisplay: '392 739 8625',
   /** Click-to-call conversion (existing). */
   googleAdsSendTo: 'AW-17710881957/RrqfCJ_M840cEKW5mv1B',
-  /** Calls from website / Call Forwarding conversion. */
-  googleAdsCallForwardSendTo: 'AW-17710881957/-QrICMGWztIcEKW5mv1B',
+  /** VUOTO = niente sostituzione numero Google (chiamata diretta) */
+  googleAdsCallForwardSendTo: '',
   conversionValue: 1.0,
   conversionCurrency: 'EUR',
   /** Ads traffic: grant marketing consent so tel-click conversions fire without banner accept. */
@@ -70,6 +74,7 @@ window.gtag('consent', 'default', {
   }
 
   function armAntiFlicker() {
+    if (!callForward) return
     if (!isAdsTraffic()) return
     if (document.getElementById('ts-dni-af-style')) return
     var css =
@@ -133,19 +138,14 @@ window.gtag('consent', 'default', {
       anonymize_ip: true,
       send_page_view: false,
     })
-    // Event snippet — Call Forwarding ("Chiamata" website calls)
+    // Event snippet — Call Forwarding ("Chiamata" website calls) — only if enabled
     if (callForward) {
       window.gtag('config', callForward, {
         phone_conversion_number: phoneDisplay,
         phone_conversion_callback: applyWcmNumber,
       })
     }
-    if (sendTo) {
-      window.gtag('set', {
-        phone_conversion_number: phoneDisplay,
-        phone_conversion_ids: [sendTo],
-      })
-    }
+    /* Click tel only when DNI is off — do not set phone_conversion_number */
   }
 
   function injectGtag() {

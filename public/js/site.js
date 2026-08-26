@@ -125,21 +125,17 @@
         window.gtag('config', GOOGLE_ADS, {
           allow_enhanced_conversions: true,
           conversion_linker: true,
-          phone_conversion_number: PHONE_DISPLAY,
           send_page_view: true,
         })
       }
-      // Re-assert Call Forwarding after consent (number replacement for Ads traffic)
+      // Re-assert Call Forwarding after consent — only if DNI enabled
       if (GOOGLE_ADS_CALL_FORWARD) {
         window.gtag('config', GOOGLE_ADS_CALL_FORWARD, {
           phone_conversion_number: PHONE_DISPLAY,
           phone_conversion_callback: window.__tsApplyWcmNumber,
         })
       }
-      window.gtag('set', {
-        phone_conversion_number: PHONE_DISPLAY,
-        phone_conversion_ids: GOOGLE_ADS_SEND_TO ? [GOOGLE_ADS_SEND_TO] : [],
-      })
+      /* Click tel only when DNI off — no phone_conversion_number set */
       window.trackTel = firePhoneConversion
       window.trackLead = function (src) {
         if (!canTrackMarketing()) return
