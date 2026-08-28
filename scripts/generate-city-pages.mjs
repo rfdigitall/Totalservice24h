@@ -163,8 +163,8 @@ function buildCityPage(baseHtml, city) {
   html = replaceOrWarn(html, /(<meta name="twitter:description" content=")[^"]*(")/, `$1Pronto intervento fabbro h24 a ${name}. Chiama ${PHONE_DISPLAY}.$2`, 'twitter:description')
   html = replaceOrWarn(html, /<script type="application\/ld\+json">[\s\S]*?<\/script>/, buildCityJsonLd(city), 'JSON-LD')
   html = replaceOrWarn(html, /<h1>[\s\S]*?<\/h1>/, `<h1>Fabbro urgente a ${name}<br><em>Pronto intervento h24</em></h1>`, 'H1 hero')
-  html = replaceOrWarn(html, /(<p class="eyebrow"[^>]*>)[^<]*(<\/p>)/, `$1Pronto intervento · Fabbro h24 a ${name}$2`, 'eyebrow')
-  html = replaceOrWarn(html, /(<p class="lead">)[^<]*(<\/p>)/, `$1Porta bloccata, chiavi perse o serratura rotta a ${name}? Un operatore risponde subito e verifica un tecnico disponibile a ${name} e provincia ${province}.$2`, 'lead')
+  html = replaceOrWarn(html, /(<p class="eyebrow"[^>]*>)[^<]*(<\/p>)/, `$1Total Service 24H · Fabbro h24 a ${name}$2`, 'eyebrow')
+  html = replaceOrWarn(html, /(<p class="lead">)[^<]*(<\/p>)/, `$1<strong>Total Service 24H</strong> — porta bloccata, chiavi perse o serratura rotta a ${name}? Un operatore risponde subito e verifica un tecnico in ${name} e provincia ${province}.$2`, 'lead')
   html = replaceOrWarn(html, /(<p class="call-band__text">)[^<]*(<\/p>)/, `$1Emergenza fabbro a ${name}? Una chiamata e partiamo.$2`, 'call-band')
   html = replaceOrWarn(html, /(<summary>Il servizio fabbro h24 copre la mia zona\?<\/summary>\s*<p>)[^<]*(<\/p>)/, `$1Sì, copriamo ${name} (${province}) e zone limitrofe. Indica via e numero civico al telefono per conferma immediata.$2`, 'FAQ zona')
 

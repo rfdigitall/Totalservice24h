@@ -166,8 +166,8 @@ function buildCityPage(baseHtml, city) {
   html = replaceOrWarn(html, /(<meta name="twitter:description" content=")[^"]*(")/, `$1Pronto intervento idraulico h24 a ${name}. Chiama ${PHONE_DISPLAY}.$2`, 'twitter:description')
   html = replaceOrWarn(html, /<script type="application\/ld\+json">[\s\S]*?<\/script>/, buildCityJsonLd(city), 'JSON-LD')
   html = replaceOrWarn(html, /<h1>[\s\S]*?<\/h1>/, `<h1>Idraulico pronto intervento a ${name}<br><em>h24, festivi compresi</em></h1>`, 'H1 hero')
-  html = replaceOrWarn(html, /(<p class="eyebrow"[^>]*>)[^<]*(<\/p>)/, `$1Pronto intervento · Idraulico h24 a ${name}$2`, 'eyebrow')
-  html = replaceOrWarn(html, /(<p class="lead">)[^<]*(<\/p>)/, `$1Perdite d'acqua, tubi rotti, caldaia o allagamento a ${name}? Un operatore risponde subito e verifica un idraulico disponibile a ${name} e provincia ${province}.$2`, 'lead')
+  html = replaceOrWarn(html, /(<p class="eyebrow"[^>]*>)[^<]*(<\/p>)/, `$1Total Service 24H · Idraulico h24 a ${name}$2`, 'eyebrow')
+  html = replaceOrWarn(html, /(<p class="lead">)[^<]*(<\/p>)/, `$1<strong>Total Service 24H</strong> — perdite d'acqua, tubi rotti, caldaia o allagamento a ${name}? Un operatore risponde subito e verifica un idraulico in ${name} e provincia ${province}.$2`, 'lead')
   html = replaceOrWarn(html, /(<p class="call-band__text">)[^<]*(<\/p>)/, `$1Emergenza idraulico a ${name}? Una chiamata e partiamo.$2`, 'call-band')
   html = replaceOrWarn(html, /(<summary>Il servizio idraulico h24 copre la mia zona\?<\/summary>\s*<p>)[^<]*(<\/p>)/, `$1Sì, copriamo ${name} (${province}) e zone limitrofe. Indica via e numero civico al telefono per conferma immediata.$2`, 'FAQ zona')
 
