@@ -1,19 +1,19 @@
 ﻿/* Total Service 24H â€” static, onesto, conversion-first */
 :root {
-  --ink: #14171B;
-  --panel: #1B1F24;
+  --ink: #1E252C;
+  --panel: #283038;
   --paper: #EDE6D9;
-  --muted: #9a9488;
-  --line: rgba(237, 230, 217, 0.12);
+  --muted: #A89F92;
+  --line: rgba(237, 230, 217, 0.16);
   --accent: #4A90A4;
-  --accent-light: #8BC4D6;
-  --accent-dark: #2E6272;
+  --accent-light: #9BCFE0;
+  --accent-dark: #357088;
   --accent-ink: #081418;
   --font-elegant: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-display: 'Roboto Slab', Georgia, serif;
   --font-mono: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace;
-  --text-body: #EDE6D9;
-  --text-soft: #B8B0A4;
+  --text-body: #F0EAE0;
+  --text-soft: #C8C0B4;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -60,7 +60,7 @@ body.home-page--minimal {
 a { color: inherit; text-decoration: none; }
 .wrap { max-width: 34rem; margin: 0 auto; padding: 0 1.25rem; }
 
-.header { position: sticky; top: 0; z-index: 40; background: rgba(20, 23, 27, 0.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); overflow: visible; }
+.header { position: sticky; top: 0; z-index: 40; background: rgba(30, 37, 44, 0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); overflow: visible; }
 .header__inner { display: flex; align-items: center; justify-content: space-between; gap: .65rem; min-height: 4.75rem; padding: .55rem 0; overflow: visible; }
 .logo { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
 .logo--brand {
@@ -163,17 +163,6 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; gap: .5rem;
 }
 .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #3ddc84; animation: blink 1.8s ease-in-out infinite; flex-shrink: 0; }
-.hero-brand-domain {
-  font-family: var(--font-mono); font-size: .78rem; letter-spacing: .06em;
-  color: var(--accent-light); margin: -.85rem 0 1.15rem;
-}
-.home-hero-badge .hero-brand-domain {
-  margin: .35rem 0 0; font-size: .72rem; color: var(--accent-light); letter-spacing: .08em;
-}
-.footer__domain {
-  font-family: var(--font-mono); font-size: .85rem; color: var(--accent-light);
-  margin-top: .35rem; letter-spacing: .04em;
-}
 @keyframes blink { 50% { opacity: .3; } }
 
 h1 {
@@ -744,7 +733,7 @@ h2 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; }
   position: absolute; inset: 0;
   background-size: cover; background-position: center center;
   background-repeat: no-repeat;
-  filter: brightness(0.5);
+  filter: brightness(0.58);
   transform: none;
   pointer-events: none;
 }
@@ -767,11 +756,11 @@ img.home-panel__bg {
 
 .home-panel__shade {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(20,23,27,.35) 0%, rgba(20,23,27,.65) 35%, rgba(20,23,27,.95) 100%);
+  background: linear-gradient(180deg, rgba(30,37,44,.28) 0%, rgba(30,37,44,.52) 35%, rgba(30,37,44,.88) 100%);
 }
 @media (min-width: 768px) {
   .home-panel__shade {
-    background: linear-gradient(90deg, rgba(20,23,27,.7) 0%, rgba(20,23,27,.35) 50%, rgba(20,23,27,.75) 100%);
+    background: linear-gradient(90deg, rgba(30,37,44,.58) 0%, rgba(30,37,44,.28) 50%, rgba(30,37,44,.62) 100%);
   }
   .home-panel--idraulico .home-panel__shade {
     background: linear-gradient(270deg, rgba(20,23,27,.7) 0%, rgba(20,23,27,.35) 50%, rgba(20,23,27,.75) 100%);
@@ -838,7 +827,7 @@ img.home-panel__bg {
 }
 .home-banner__bg {
   position: absolute; inset: 0; background-size: cover; background-position: center;
-  filter: brightness(0.42);
+  filter: brightness(0.52);
 }
 .home-banner--fabbro .home-banner__bg {
   background-image: image-set(url('../img/bg-lock.webp') type('image/webp'), url('../img/bg-lock.jpg') type('image/jpeg'));
@@ -1017,7 +1006,7 @@ img.home-panel__bg {
 .lp-hero__bg {
   position: absolute; inset: 0; background-size: cover; background-position: center center;
   background-repeat: no-repeat;
-  filter: brightness(0.42); transform: none;
+  filter: brightness(0.52); transform: none;
   pointer-events: none;
 }
 .lp-hero--fabbro .lp-hero__bg {
@@ -1034,13 +1023,13 @@ img.home-panel__bg {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  filter: brightness(0.42);
+  filter: brightness(0.52);
   pointer-events: none;
 }
 .lp-hero:has(.lp-hero__bg-img) .lp-hero__bg { display: none; }
 .lp-hero__shade {
   position: absolute; inset: 0;
-  background: linear-gradient(175deg, rgba(20,23,27,.55) 0%, rgba(20,23,27,.82) 45%, var(--ink) 92%);
+  background: linear-gradient(175deg, rgba(30,37,44,.42) 0%, rgba(30,37,44,.68) 45%, var(--ink) 92%);
 }
 .lp-hero__content { position: relative; z-index: 1; width: 100%; }
 .lp-hero h1 { font-size: clamp(2rem, 7vw, 2.75rem); max-width: 14ch; }
