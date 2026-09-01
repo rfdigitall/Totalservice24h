@@ -149,10 +149,24 @@
     links.forEach(function (a) {
       if (a.__tsBound) return
       a.__tsBound = true
-      a.addEventListener('click', function () {
+      a.addEventListener('click', function (e) {
         markCallAttempt()
+        var href = a.getAttribute('href')
+        if (!href || href.indexOf('tel:') !== 0) return
         if (!canTrackMarketing()) return
-        whenGtagReady(function () { firePhoneConversion() })
+
+        e.preventDefault()
+        var done = false
+        function dial() {
+          if (done) return
+          done = true
+          window.location.href = href
+        }
+        whenGtagReady(function () {
+          firePhoneConversion()
+          setTimeout(dial, 300)
+        })
+        setTimeout(dial, 900)
       }, true)
     })
   }
